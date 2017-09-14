@@ -1,0 +1,142 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+add_to_pool	/home/jose/lib/nex/trunk/astronex/state.py	/^    def add_to_pool(self,chart,ow):$/;"	m	language:Python	class:Current
+biolist	/home/jose/lib/nex/trunk/astronex/state.py	/^biolist =  deque(['bio_nat','bio_nod','bio_soul'])$/;"	v	language:Python
+bisect_right	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^from bisect import bisect_right$/;"	i	language:Python
+chart	/home/jose/lib/nex/trunk/astronex/state.py	/^import chart$/;"	i	language:Python
+chart_conn	/home/jose/lib/nex/trunk/astronex/database.py	/^chart_conn = None$/;"	v	language:Python
+chiron	/home/jose/lib/nex/trunk/astronex/state.py	/^    def chiron(self,ch):$/;"	m	language:Python	class:Current
+clicklist	/home/jose/lib/nex/trunk/astronex/state.py	/^clicklist = deque(['click_hh','click_nn','click_hn','click_nh','subject_click','click_rr','click_bridge'])$/;"	v	language:Python
+coalesce_geo	/home/jose/lib/nex/trunk/astronex/database.py	/^def coalesce_geo(plg,plt):$/;"	f	language:Python
+connect	/home/jose/lib/nex/trunk/astronex/database.py	/^def connect(app):$/;"	f	language:Python
+copy	/home/jose/lib/nex/trunk/astronex/database.py	/^from copy import copy$/;"	i	language:Python
+create_table	/home/jose/lib/nex/trunk/astronex/database.py	/^def create_table(tblname):$/;"	f	language:Python
+Current	/home/jose/lib/nex/trunk/astronex/state.py	/^class Current(object):$/;"	c	language:Python
+customloc_conn	/home/jose/lib/nex/trunk/astronex/database.py	/^customloc_conn = None$/;"	v	language:Python
+datab	/home/jose/lib/nex/trunk/astronex/state.py	/^    datab = database$/;"	v	language:Python	class:Current
+database	/home/jose/lib/nex/trunk/astronex/state.py	/^import database$/;"	i	language:Python
+dateforcalc	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def dateforcalc(self):$/;"	m	language:Python	class:NeXDate
+dateforstore	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def dateforstore(self):$/;"	m	language:Python	class:NeXDate
+datetime	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^from datetime import datetime, timedelta, tzinfo$/;"	i	language:Python
+datetime	/home/jose/lib/nex/trunk/astronex/state.py	/^        import datetime$/;"	i	language:Python
+datetime	/home/jose/lib/nex/trunk/astronex/state.py	/^        import datetime$/;"	i	language:Python
+datlist	/home/jose/lib/nex/trunk/astronex/state.py	/^datlist = deque(['dat_nat','dat_house','dat_nod','prog_nat','prog_nod','prog_local','prog_soul'])$/;"	v	language:Python
+dectodeg	/home/jose/lib/nex/trunk/astronex/database.py	/^from utils import dectodeg,degtodec$/;"	i	language:Python
+dectodeg	/home/jose/lib/nex/trunk/astronex/state.py	/^from utils import PersonInfo,dectodeg,parsestrtime$/;"	i	language:Python
+degtodec	/home/jose/lib/nex/trunk/astronex/database.py	/^from utils import dectodeg,degtodec$/;"	i	language:Python
+delete_chart	/home/jose/lib/nex/trunk/astronex/database.py	/^def delete_chart(tbl, id):$/;"	f	language:Python
+delete_chart_from_name	/home/jose/lib/nex/trunk/astronex/database.py	/^def delete_chart_from_name(tbl, fi, la):$/;"	f	language:Python
+delete_custom_loc	/home/jose/lib/nex/trunk/astronex/database.py	/^def delete_custom_loc(tbl,city,code):$/;"	f	language:Python
+delete_table	/home/jose/lib/nex/trunk/astronex/database.py	/^def delete_table(tblname):$/;"	f	language:Python
+deque	/home/jose/lib/nex/trunk/astronex/state.py	/^from collections import deque$/;"	i	language:Python
+dialist	/home/jose/lib/nex/trunk/astronex/state.py	/^dialist =  deque(['dyn_cuad','dyn_cuad2','dyn_stars'])$/;"	v	language:Python
+dst	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def dst(self, dt):$/;"	m	language:Python	class:FixedOffset
+easy_connect	/home/jose/lib/nex/trunk/astronex/database.py	/^def easy_connect():$/;"	f	language:Python
+fetch_all_from_country	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_all_from_country(country, usa=False):$/;"	f	language:Python
+fetch_all_from_country_and_region	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_all_from_country_and_region(country, reg, usa=False):$/;"	f	language:Python
+fetch_all_from_custom	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_all_from_custom():$/;"	f	language:Python
+fetch_blindly	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_blindly(country, city, loc):$/;"	f	language:Python
+fetch_blindly_usacity	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_blindly_usacity(country, city, loc):$/;"	f	language:Python
+fetch_blindly_zone	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_blindly_zone(loc):$/;"	f	language:Python
+fetch_blindly_zone_usa	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_blindly_zone_usa(state, cc, loc):$/;"	f	language:Python
+fetch_country	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_country(cursor, loc):$/;"	f	language:Python
+fetch_region	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_region(cursor, loc):$/;"	f	language:Python
+fetch_usacity	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_usacity(country, city, code, loc):$/;"	f	language:Python
+fetch_worldcity	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_worldcity(country, city, code, loc):$/;"	f	language:Python
+fetch_zone	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_zone(cursor, loc):$/;"	f	language:Python
+fetch_zone_usa	/home/jose/lib/nex/trunk/astronex/database.py	/^def fetch_zone_usa(cursor, loc):$/;"	f	language:Python
+FixedOffset	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^class FixedOffset(tzinfo):$/;"	c	language:Python
+fix_couples	/home/jose/lib/nex/trunk/astronex/state.py	/^    def fix_couples(self,tbl,first,last,newid):$/;"	m	language:Python	class:Current
+format_latitud	/home/jose/lib/nex/trunk/astronex/state.py	/^    def format_latitud(self,kind='chart'):$/;"	m	language:Python	class:Current
+format_longitud	/home/jose/lib/nex/trunk/astronex/state.py	/^    def format_longitud(self,kind='chart'):$/;"	m	language:Python	class:Current
+getnewdt	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def getnewdt(self,dateset):$/;"	m	language:Python	class:NeXDate
+get_active	/home/jose/lib/nex/trunk/astronex/state.py	/^    def get_active(self,active):$/;"	m	language:Python	class:Current
+get_chartlist	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_chartlist(tbl):$/;"	f	language:Python
+get_code_from_name	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_code_from_name(name):$/;"	f	language:Python
+get_cycles	/home/jose/lib/nex/trunk/astronex/state.py	/^    def get_cycles(self,person2=False):$/;"	m	language:Python	class:Current
+get_databases	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_databases():$/;"	f	language:Python
+get_datum	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_datum(tbl,datum):$/;"	f	language:Python
+get_favlist	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_favlist(tbl,lim,chart):$/;"	f	language:Python
+get_name_from_code	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_name_from_code(code):$/;"	f	language:Python
+get_name_from_usacode	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_name_from_usacode(code):$/;"	f	language:Python
+get_regionname_from_code	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_regionname_from_code(alfa, code):$/;"	f	language:Python
+get_states	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_states(usa=False):$/;"	f	language:Python
+get_states_tuple	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_states_tuple(usa=False):$/;"	f	language:Python
+get_usacode_from_name	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_usacode_from_name(name):$/;"	f	language:Python
+get_usadistrict_from_code	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_usadistrict_from_code(alfa, code):$/;"	f	language:Python
+get_usa_state_code	/home/jose/lib/nex/trunk/astronex/database.py	/^def get_usa_state_code(name):$/;"	f	language:Python
+init	/home/jose/lib/nex/trunk/astronex/state.py	/^    def init(self,app):$/;"	m	language:Python	class:Current
+init_nowchart	/home/jose/lib/nex/trunk/astronex/state.py	/^    def init_nowchart(self):$/;"	m	language:Python	class:Current
+is_valid	/home/jose/lib/nex/trunk/astronex/state.py	/^    def is_valid(self, type):$/;"	m	language:Python	class:Current
+listlabels	/home/jose/lib/nex/trunk/astronex/state.py	/^listlabels = { 'opdouble': opdouble,'charts': opdouble, 'data':datlist,'clicks':clicklist,'bio':biolist,'diagram':dialist,'transit':tranlist,'double1':opdouble,'double2':opdouble,'triple1':opdouble,'triple2':optriplepair}$/;"	v	language:Python
+list_regions	/home/jose/lib/nex/trunk/astronex/database.py	/^def list_regions(count, usa=False):$/;"	f	language:Python
+load_chart	/home/jose/lib/nex/trunk/astronex/database.py	/^def load_chart(tbl, id, chart):$/;"	f	language:Python
+load_chart_from_name	/home/jose/lib/nex/trunk/astronex/database.py	/^def load_chart_from_name(tbl, fi, la, chart):$/;"	f	language:Python
+load_from_fav	/home/jose/lib/nex/trunk/astronex/state.py	/^    def load_from_fav(self,ix,id):$/;"	m	language:Python	class:Current
+load_from_pool	/home/jose/lib/nex/trunk/astronex/state.py	/^    def load_from_pool(self,ix,id):$/;"	m	language:Python	class:Current
+load_import	/home/jose/lib/nex/trunk/astronex/state.py	/^    def load_import(self,chart, ch):$/;"	m	language:Python	class:Current
+locale	/home/jose/lib/nex/trunk/astronex/database.py	/^import locale$/;"	i	language:Python
+Locality	/home/jose/lib/nex/trunk/astronex/state.py	/^class Locality(object):$/;"	c	language:Python
+localize	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def localize(self, dt, is_dst=False):$/;"	m	language:Python	class:FixedOffset
+local_conn	/home/jose/lib/nex/trunk/astronex/database.py	/^local_conn = None$/;"	v	language:Python
+newchart	/home/jose/lib/nex/trunk/astronex/state.py	/^    def newchart(self):$/;"	m	language:Python	class:Current
+NeXDate	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^class NeXDate(object):$/;"	c	language:Python
+NeXDate	/home/jose/lib/nex/trunk/astronex/state.py	/^from nexdate import NeXDate$/;"	i	language:Python
+normalize	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def normalize(self, dt, is_dst=False):$/;"	m	language:Python	class:FixedOffset
+oldtimes	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^from tz_sup import oldtimes$/;"	i	language:Python
+opdouble	/home/jose/lib/nex/trunk/astronex/state.py	/^opdouble = deque(['draw_nat',$/;"	v	language:Python
+optriplepair	/home/jose/lib/nex/trunk/astronex/state.py	/^optriplepair = deque(['click_hh', 'click_nn', 'click_hn', 'click_nh',$/;"	v	language:Python
+parsestrtime	/home/jose/lib/nex/trunk/astronex/state.py	/^from utils import PersonInfo,dectodeg,parsestrtime$/;"	i	language:Python
+patch_timezone	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def patch_timezone(self,tz):$/;"	m	language:Python	class:NeXDate
+path	/home/jose/lib/nex/trunk/astronex/database.py	/^from extensions.path import path$/;"	i	language:Python
+path	/home/jose/lib/nex/trunk/astronex/state.py	/^from extensions.path import path$/;"	i	language:Python
+PersonInfo	/home/jose/lib/nex/trunk/astronex/state.py	/^from utils import PersonInfo,dectodeg,parsestrtime$/;"	i	language:Python
+pickle	/home/jose/lib/nex/trunk/astronex/state.py	/^import pickle$/;"	i	language:Python
+pysw	/home/jose/lib/nex/trunk/astronex/state.py	/^import pysw$/;"	i	language:Python
+refresh_nowchart	/home/jose/lib/nex/trunk/astronex/state.py	/^    def refresh_nowchart(self):$/;"	m	language:Python	class:Current
+rename_chart	/home/jose/lib/nex/trunk/astronex/database.py	/^def rename_chart(old, new):$/;"	f	language:Python
+replicate	/home/jose/lib/nex/trunk/astronex/state.py	/^    def replicate(self,src,dest):$/;"	m	language:Python	class:Current
+reset_opup	/home/jose/lib/nex/trunk/astronex/state.py	/^    def reset_opup(self):$/;"	m	language:Python	class:Current
+retrieve_all_charts	/home/jose/lib/nex/trunk/astronex/database.py	/^def retrieve_all_charts(tbl,chart):$/;"	f	language:Python
+retrieve_chart	/home/jose/lib/nex/trunk/astronex/database.py	/^def retrieve_chart(tbl, id, chart):$/;"	f	language:Python
+safe_delete_chart	/home/jose/lib/nex/trunk/astronex/state.py	/^    def safe_delete_chart(self,tbl,id):$/;"	m	language:Python	class:Current
+safe_delete_table	/home/jose/lib/nex/trunk/astronex/state.py	/^    def safe_delete_table(self,tbl):$/;"	m	language:Python	class:Current
+save_attached_loc	/home/jose/lib/nex/trunk/astronex/database.py	/^def save_attached_loc(args):$/;"	f	language:Python
+save_couples	/home/jose/lib/nex/trunk/astronex/state.py	/^    def save_couples(self,app):$/;"	m	language:Python	class:Current
+save_pool	/home/jose/lib/nex/trunk/astronex/state.py	/^    def save_pool(self,app):$/;"	m	language:Python	class:Current
+search_by_name_all_tables	/home/jose/lib/nex/trunk/astronex/database.py	/^def search_by_name_all_tables(name):$/;"	f	language:Python
+setchart	/home/jose/lib/nex/trunk/astronex/database.py	/^def setchart(chart, ch):$/;"	f	language:Python
+setchart	/home/jose/lib/nex/trunk/astronex/state.py	/^    def setchart(self):$/;"	m	language:Python	class:Current
+setdt	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def setdt(self, dt):$/;"	m	language:Python	class:NeXDate
+setloc	/home/jose/lib/nex/trunk/astronex/state.py	/^    def setloc(self,city,code):$/;"	m	language:Python	class:Current
+setprogchart	/home/jose/lib/nex/trunk/astronex/state.py	/^    def setprogchart(self,chart):$/;"	m	language:Python	class:Current
+settz	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def settz(self, tz):$/;"	m	language:Python	class:NeXDate
+set_delta	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def set_delta(self, delta,getback=False):$/;"	m	language:Python	class:NeXDate
+set_list	/home/jose/lib/nex/trunk/astronex/state.py	/^    def set_list(self,label):$/;"	m	language:Python	class:Current
+set_now	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def set_now(self):$/;"	m	language:Python	class:NeXDate
+set_now	/home/jose/lib/nex/trunk/astronex/state.py	/^    def set_now(self):$/;"	m	language:Python	class:Current
+set_op	/home/jose/lib/nex/trunk/astronex/state.py	/^    def set_op(self, op):$/;"	m	language:Python	class:Current
+set_opdelta	/home/jose/lib/nex/trunk/astronex/state.py	/^    def set_opdelta(self,delta,side):$/;"	m	language:Python	class:Current
+sqlite3	/home/jose/lib/nex/trunk/astronex/database.py	/^import sqlite3$/;"	i	language:Python
+store_chart	/home/jose/lib/nex/trunk/astronex/database.py	/^def store_chart(tbl, c):$/;"	f	language:Python
+strdate_to_date	/home/jose/lib/nex/trunk/astronex/state.py	/^        from directions import strdate_to_date$/;"	i	language:Python
+strdate_to_date	/home/jose/lib/nex/trunk/astronex/state.py	/^        from directions import strdate_to_date$/;"	i	language:Python
+timedelta	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^from datetime import datetime, timedelta, tzinfo$/;"	i	language:Python
+timezone	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^from pytz import timezone$/;"	i	language:Python
+timezone	/home/jose/lib/nex/trunk/astronex/state.py	/^        from pytz import timezone$/;"	i	language:Python
+timezone	/home/jose/lib/nex/trunk/astronex/state.py	/^        from pytz import timezone$/;"	i	language:Python
+tranlist	/home/jose/lib/nex/trunk/astronex/state.py	/^tranlist = deque(['draw_transits','rad_and_transit'])$/;"	v	language:Python
+tzinfo	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^from datetime import datetime, timedelta, tzinfo$/;"	i	language:Python
+tzname	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def tzname(self, dt):$/;"	m	language:Python	class:FixedOffset
+utcoffset	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def utcoffset(self, dt):$/;"	m	language:Python	class:FixedOffset
+vacuum	/home/jose/lib/nex/trunk/astronex/database.py	/^def vacuum():$/;"	f	language:Python
+vulcan	/home/jose/lib/nex/trunk/astronex/state.py	/^    def vulcan(self,ch):$/;"	m	language:Python	class:Current
+westerncollate	/home/jose/lib/nex/trunk/astronex/database.py	/^def westerncollate(s1, s2):$/;"	f	language:Python
+year_regent	/home/jose/lib/nex/trunk/astronex/state.py	/^    def year_regent(self):$/;"	m	language:Python	class:Current
+zone	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    zone = 'LMT' # to match the standard pytz API$/;"	v	language:Python	class:FixedOffset
+_cache	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^_cache = {}$/;"	v	language:Python
+__init__	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def __init__(self, minutes):$/;"	m	language:Python	class:FixedOffset
+__init__	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def __init__(self,current,dt=datetime.now(), tz=timezone('UTC')):$/;"	m	language:Python	class:NeXDate
+__init__	/home/jose/lib/nex/trunk/astronex/state.py	/^    def __init__(self):$/;"	m	language:Python	class:Locality
+__new__	/home/jose/lib/nex/trunk/astronex/state.py	/^    def __new__(cls,app=None):$/;"	m	language:Python	class:Current	file:
+__reduce__	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def __reduce__(self):$/;"	m	language:Python	class:FixedOffset	file:
+__repr__	/home/jose/lib/nex/trunk/astronex/nexdate.py	/^    def __repr__(self):$/;"	m	language:Python	class:FixedOffset	file:

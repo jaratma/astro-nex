@@ -1,0 +1,17 @@
+Este es el directorio por defecto para los archivos de efemérides, solo
+necesarios en caso de necesitar mayor exactitud en los cálculos, y que es
+posible descargar de ftp://ftp.astro.com/pub/swisseph.
+
+En la práctica, estos cuatro archivos:
+
+- semo_12.se1
+- semo_18.se1
+- sepl_12.se1
+- sepl_18.se1
+
+cubren las posiciones planetarias y lunares desde los años 1200 a 2399.
+
+Es posible que otro software astrológico ya tenga esos archivos instalados, y en
+ese caso basta con copiarlos a este directorio.
+
+Nuestro agradecimiento a Astro-Dienst por publicar las Efemérides Suizas.
