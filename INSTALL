@@ -1,0 +1,49 @@
+Installing from sources
+=======================
+
+Dependencies
+------------
+Python >= 2.5
+(latest at this moment) http://www.pygtk.org
+pygtk 		2.10.6
+pygobject 	2.12.3
+pycairo 	1.4.0
+configobj 	4.4.0 	http://www.voidspace.org.uk/python/configobj.html
+pytz		2007f	http://pytz.sourceforge.net/
+ipython		0.8.1
+
+Ephemeris library - by the moment you must install this manually.
+In the distribution ext folder you'll find 32 and 64 versions. 
+Throw the apropiate (pysw.py,_pysw.so) in the python lib site-packages 
+folder or a valid python sys path.
+
+==============================
+IMPORTANT!!!
+Since version 1.2, you must reinstall pysw, as it has changed a bit. Just 
+follow again previous intructions, using provided files.
+==============================
+
+
+(Windows users must fetch their pysw.zip from the web -
+http://astro-nex.com/releases, 
+and have additional dependencies:
+pywin32 	https://sourceforge.net/projects/pywin32/
+winshell 	http://tgolden.sc.sabren.com/python/).
+
+Though there is a setup.py (from the source distribution), currently it is
+broken due to obscure circumstances, mainly the parallel devlopment between
+windows (py2exe) and linux machines. So...
+
+You better unpack the tar in a suitable directory, and then you can execute
+from there the nex.py script on the command line, or you can run the
+install_cmd, which put a nex command in your home bin folder (hopefully you have
+one!) 
+If you want to create an icon on your desktop, there is a nice png in the 
+astronex/resources folder.
+
+You must also install the font Astro-Nex.ttf, from the astronex/resources
+folder, or you will see nothing.
+
+Enjoy!
+
+
