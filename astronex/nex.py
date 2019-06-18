@@ -1,10 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 import sys, os
 import glob
 import gettext
 import atexit
-import countries 
+import countries
 from config import read_config
 lang_es = gettext.translation('astronex','./astronex/locale', languages=['es'])
 lang_en = gettext.translation('astronex','./astronex/locale', languages=['en'])
@@ -45,7 +45,7 @@ def check_home_dir(appath):
     """Set home dir, copying needed files"""
     global home_dir, ephe_flag
     default_home = path.joinpath(path.expanduser(path('~')), home_dir)
-    
+
     if not path.exists(default_home):
         path.mkdir(default_home)
     ephepath = path.joinpath(default_home,ephe_path)
@@ -53,18 +53,18 @@ def check_home_dir(appath):
         path.mkdir(path.joinpath(default_home,ephe_path))
         path.copy(path.joinpath(appath,"astronex/resources/README"),ephepath)
     if ephepath.glob("*.se1"):
-        ephe_flag = 2 
+        ephe_flag = 2
     if not path.exists(path.joinpath(default_home,default_db)):
         path.copy(path.joinpath(appath,"astronex/resources/charts.db"),default_home)
 
     home_dir = default_home
-    
 
-def init_config(homedir,opts,state): 
+
+def init_config(homedir,opts,state):
     ephepath = path.joinpath(homedir,opts.ephepath)
     from pysw import setpath
     setpath(str(ephepath))
-    
+
     state.country = opts.country
     state.usa = {'false':False,'true':True}[opts.usa]
     state.database = opts.database
@@ -82,23 +82,23 @@ def init_config(homedir,opts,state):
             state.fav = favs
         except:
             pass
-    
+
     from chart import orbs as ch_orbs
     orbs = [opts.lum,opts.normal,opts.short,opts.far,opts.useless]
     for l in orbs:
         state.orbs.append(map(float,l))
-        ch_orbs.append(map(float,l)) 
+        ch_orbs.append(map(float,l))
     peorbs = [opts.pelum,opts.penormal,opts.peshort,opts.pefar,opts.peuseless]
     for l in peorbs:
         state.peorbs.append(map(float,l))
     for l in opts.transits:
-        state.transits.append(float(l)) 
+        state.transits.append(float(l))
     opts.discard = [ int(x) for x in opts.discard ]
 
 class Splash (gtk.Window):
     def __init__(self,appath):
         gtk.Window.__init__(self,gtk.WINDOW_POPUP)
-        self.set_default_size(400, 250) 
+        self.set_default_size(400, 250)
         self.set_position (gtk.WIN_POS_CENTER)
         vbox = gtk.VBox()
         img = gtk.Image()
@@ -107,9 +107,9 @@ class Splash (gtk.Window):
         vbox.pack_start(img)
         self.add(vbox)
 
-def init_ipshell():    
+def init_ipshell():
     ''' ipython suport (for linux)'''
-    if sys.platform != 'win32': 
+    if sys.platform != 'win32':
         try:
             __IPYTHON__
         except NameError:
@@ -122,12 +122,12 @@ def init_ipshell():
 
         #from IPython.Shell import IPShellEmbed
         #ipshell = IPShellEmbed(argv,banner=banner,exit_msg=exit_msg)
-        #return ipshell 
+        #return ipshell
         from IPython.config.loader import Config
         cfg = Config()
         cfg.InteractiveShellEmbed.prompt_in1="myprompt [\\#]> "
         cfg.InteractiveShellEmbed.prompt_out="myprompt [\\#]: "
-        #cfg.InteractiveShellEmbed.profile=ipythonprofile 
+        #cfg.InteractiveShellEmbed.profile=ipythonprofile
         from IPython.frontend.terminal.embed import InteractiveShellEmbed
         shell = InteractiveShellEmbed(config=cfg, banner2=banner)
         shell.user_ns = {}
@@ -145,7 +145,7 @@ class application(object):
         self.langs = langs
 
     def run(self):
-        """Start Nex""" 
+        """Start Nex"""
         splash = Splash(self.appath)
         splash.show_all()
         gobject.timeout_add(1000, splash.hide) # 5*1000 miliseconds
@@ -163,7 +163,7 @@ class application(object):
         state = Current(self)
         init_config(self.home_dir,opts,state)
         boss = Manager(self,opts,state)
-        boss.ipshell = init_ipshell() 
+        boss.ipshell = init_ipshell()
         boss.ipshell()
 
     def setup_app(self):
@@ -182,8 +182,8 @@ class application(object):
         mainwin = WinNex(boss)
         boss.set_mainwin(mainwin)
         #if 'DEBUG_NEX' in os.environ:
-        #    boss.ipshell = init_ipshell() 
-    
+        #    boss.ipshell = init_ipshell()
+
     def stop(self):
         """Stop Nex."""
         gtk.main_quit()

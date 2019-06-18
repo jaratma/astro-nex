@@ -22,8 +22,8 @@ class Slot(gtk.VBox):
 
         self.imgfile1 = path.joinpath(appath,"astronex/resources/stock_inbox-24.png")
         self.imgfile2 = path.joinpath(appath,"astronex/resources/gtk-folder-24.png")
-        
-        self.wname = id 
+
+        self.wname = id
         self.chart_id = None
         self.timeout_sid = None
         names = ['master','click']
@@ -45,7 +45,7 @@ class Slot(gtk.VBox):
         but.connect('clicked',self.on_storage_clicked)
         hbutbox.pack_start(but,True,True)
         self.storage_img = img
-        self.storage_but = but 
+        self.storage_but = but
         table.attach(hbutbox,0,1,0,1)
 
         hbutbox = gtk.HBox()
@@ -71,7 +71,7 @@ class Slot(gtk.VBox):
         img = gtk.Image()
         imgfile = path.joinpath(appath,"astronex/resources/gnome-eog-24.png")
         img.set_from_file(str(imgfile))
-        ev.add(img)        
+        ev.add(img)
         ev.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("white"))
         hbutbox.pack_end(ev,True,True)
         ev.set_events(gtk.gdk.BUTTON_PRESS_MASK)
@@ -100,7 +100,7 @@ class Slot(gtk.VBox):
 
         self.pack_start(eb)
         self.eb = eb
-        
+
         self.menu = gtk.Menu()
         for buf in (_('Exportar carta'),_('Importar carta')):
             menu_items = gtk.MenuItem(buf)
@@ -116,8 +116,8 @@ class Slot(gtk.VBox):
         if self.chart_id != 'now':
             widget = MainPanel.pool[self.wname]
             MainPanel.slot_activate(widget)
-        chart = curr.charts[self.chart_id] 
-        mainwin = boss.mainwin 
+        chart = curr.charts[self.chart_id]
+        mainwin = boss.mainwin
         if not mainwin.entry:
             mainwin.activate_entry()
         mainwin.entry.modify_entries(chart)
@@ -163,8 +163,8 @@ class Slot(gtk.VBox):
     def on_fav_menu_activate(self,menuitem,menu,ix):
         active = Slot.storage
         curr.load_from_fav(ix,active)
-        MainPanel.actualize_pool(active,curr.charts[active]) 
-        menu.popdown()  
+        MainPanel.actualize_pool(active,curr.charts[active])
+        menu.popdown()
 
     def on_eye_menu_activate(self,menuitem,menu):
         active = Slot.storage
@@ -176,8 +176,8 @@ class Slot(gtk.VBox):
                 break
         #if curr.load_from_pool(ix,self.wname):
         if curr.load_from_pool(ix,active):
-            MainPanel.actualize_pool(active,curr.charts[active]) 
-        menu.popdown()  
+            MainPanel.actualize_pool(active,curr.charts[active])
+        menu.popdown()
 
     def on_clock_clicked(self,but):
         widget = MainPanel.pool[self.wname]
@@ -190,12 +190,12 @@ class Slot(gtk.VBox):
         boss.mpanel.chooser.init_button.emit('clicked')
         active = boss.mpanel.toolbar.get_nth_item(1).get_active()
         self.prev_showpe = active
-        boss.mpanel.toolbar.get_nth_item(1).set_active(False) 
-    
+        boss.mpanel.toolbar.get_nth_item(1).set_active(False)
+
     def on_storage_clicked(self,but):
         other = MainPanel.pool[self.other]
         self.storage_img.set_from_file(str(self.imgfile1))
-        other.storage_img.set_from_file(str(self.imgfile2)) 
+        other.storage_img.set_from_file(str(self.imgfile2))
         self.storage_but.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("white"))
         other.storage_but.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#f6f7fe"))
         MainPanel.browser.slot = self.wname
@@ -212,7 +212,7 @@ class Slot(gtk.VBox):
                 self.eb.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("white"))
                 other.eb.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#f6f7fe"))
                 self.eye.show()
-                other.eye.hide() 
+                other.eye.hide()
                 curr.curr_chart,curr.curr_click = curr.curr_click,curr.curr_chart
                 curr.crossed = not(curr.crossed)
                 boss.redraw()
@@ -220,7 +220,7 @@ class Slot(gtk.VBox):
             elif self.chart_id == 'now':
                 chart = curr.charts[self.wname]
                 if curr.is_valid(chart.id):
-                    MainPanel.actualize_pool(self.wname,chart) 
+                    MainPanel.actualize_pool(self.wname,chart)
                 try:
                   self.prev_clock_button.emit('clicked')
                 except AttributeError:
@@ -229,21 +229,21 @@ class Slot(gtk.VBox):
             if self.chart_id == 'now':
                 boss.mpanel.toolbar.get_nth_item(1).set_active(False)
             elif self.prev_showpe:
-                boss.mpanel.toolbar.get_nth_item(1).set_active(True) 
+                boss.mpanel.toolbar.get_nth_item(1).set_active(True)
             if boss.da.cycleselector:
                 boss.da.cycleselector.refresh_spin()
-            return True 
+            return True
         return True
 
     def on_menuitem_activate(self,menuitem):
         if menuitem.child.get_text() == _('Exportar carta'):
             widget = MainPanel.pool[self.wname]
             MainPanel.slot_activate(widget)
-            chart = curr.charts[self.chart_id] 
+            chart = curr.charts[self.chart_id]
             if sys.platform == 'win32':
                 import winshell
-                folder = winshell.my_documents() + os.path.sep 
-            else: 
+                folder = winshell.my_documents() + os.path.sep
+            else:
                 folder = os.path.expanduser("~") + os.path.sep
             name = "_".join((chart.first,chart.last)).strip().replace(" ","_")
             name = folder + name + ".nx1"
@@ -259,17 +259,17 @@ class Slot(gtk.VBox):
             if sys.platform == 'win32':
                 import winshell
                 dialog.set_current_folder(winshell.my_documents())
-            else: 
+            else:
                 dialog.set_current_folder(os.path.expanduser("~"))
             dialog.set_show_hidden(False)
             response = dialog.run()
             if response == gtk.RESPONSE_OK:
-                filename = dialog.get_filename() 
+                filename = dialog.get_filename()
                 data = open(filename.decode('utf8')).read().split(",")
                 chart = curr.charts[self.wname]
                 try:
                     curr.load_import(chart,data)
-                    MainPanel.actualize_pool(self.wname,chart) 
+                    MainPanel.actualize_pool(self.wname,chart)
                 except:
                     msg = _('Error importando carta')
                     dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL,
@@ -283,14 +283,14 @@ class Slot(gtk.VBox):
             dialog.destroy()
 
     def on_scroll_event(self,entry,event):
-        if event.direction == gtk.gdk.SCROLL_UP: 
+        if event.direction == gtk.gdk.SCROLL_UP:
             delta = 1
         elif event.direction == gtk.gdk.SCROLL_DOWN:
             delta = -1
         else:
             return
         if curr.load_from_pool(delta,self.wname):
-            MainPanel.actualize_pool(self.wname,curr.charts[self.wname]) 
+            MainPanel.actualize_pool(self.wname,curr.charts[self.wname])
 
 class ChartBrowser(gtk.VBox):
     def __init__(self,ap_path,font):
@@ -298,7 +298,7 @@ class ChartBrowser(gtk.VBox):
         self.chartview = None
         self.font = font
         appath = path.joinpath(ap_path,'astronex')
-        
+
         liststore = gtk.ListStore(str)
         self.tables = gtk.ComboBoxEntry(liststore)
         self.entry = self.tables.get_children()[0]
@@ -310,7 +310,7 @@ class ChartBrowser(gtk.VBox):
         self.tables.connect('changed',self.on_tables_changed)
         self.tables.set_size_request(120,-1)
         tablelist = curr.datab.get_databases()
-        liststore.append([_('(Buscar)')]) 
+        liststore.append([_('(Buscar)')])
 
         for c in tablelist:
             liststore.append([c])
@@ -318,31 +318,31 @@ class ChartBrowser(gtk.VBox):
         for i,r in enumerate(liststore):
             if r[0] == curr.database:
                 index = i
-                break 
+                break
         self.tables.set_active(index)
-        
+
         hbox = gtk.HBox()
         hbox.pack_start(self.tables)
-        
+
         opbut = gtk.Button()
         img = gtk.Image()
         imgfile = path.joinpath(appath,"resources/folder-convert24.png")
         img.set_from_file(imgfile)
-        opbut.set_image(img) 
+        opbut.set_image(img)
         opbut.set_tooltip_text(_('Explorador/Tablas'))
         opbut.connect('clicked',self.on_opbut_clicked)
-        hbox.pack_start(opbut,False,False) 
+        hbox.pack_start(opbut,False,False)
 
         opbut = gtk.Button()
         img = gtk.Image()
         imgfile = path.joinpath(appath,"resources/pgram.png")
         img.set_from_file(imgfile)
-        opbut.set_image(img) 
+        opbut.set_image(img)
         opbut.set_tooltip_text(_('Planetograma'))
         opbut.connect('clicked',self.on_plagram_clicked)
-        hbox.pack_start(opbut,False,False) 
+        hbox.pack_start(opbut,False,False)
         self.pack_start(hbox,False,False)
-        
+
         self.chartmodel = gtk.ListStore(str,int)
         #self.chartview = gtk.TreeView(self.chartmodel)
         self.chartview = SearchView(self.chartmodel)
@@ -354,13 +354,13 @@ class ChartBrowser(gtk.VBox):
             glue = ", "
             if c[2] == '':  glue = ''
             self.chartmodel.append([c[2]+glue+c[1],int(c[0])])
-        
+
         cell = gtk.CellRendererText()
         column = gtk.TreeViewColumn(None,cell,text=0)
-        self.chartview.append_column(column) 
+        self.chartview.append_column(column)
         self.chartview.set_headers_visible(False)
         self.chartview.connect('row_activated',self.on_chart_activated)
-        
+
         self.menu = gtk.Menu()
         for buf in (_('Copiar'),_('Cortar'),_('Pegar')):
             menu_items = gtk.MenuItem(buf)
@@ -374,27 +374,27 @@ class ChartBrowser(gtk.VBox):
         sw = gtk.ScrolledWindow()
         #sw.set_size_request(-1,160)
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        sw.add(self.chartview) 
+        sw.add(self.chartview)
         self.pack_start(sw,True,True)
 
     def on_opbut_clicked(self,but):
-        boss.mainwin.launch_chartbrowser_from_mpanel() 
-    
+        boss.mainwin.launch_chartbrowser_from_mpanel()
+
     def on_plagram_clicked(self,but):
-        boss.mainwin.launch_plagram(None,None,None,None) 
+        boss.mainwin.launch_plagram(None,None,None,None)
 
     def relist(self,new):
         liststore = gtk.ListStore(str)
-        tablelist = curr.datab.get_databases() 
+        tablelist = curr.datab.get_databases()
         for c in tablelist:
             liststore.append([c])
         if not new:
-            new = self.tables.get_active_text() 
+            new = self.tables.get_active_text()
         index = 0
         for i,r in enumerate(liststore):
             if r[0] == new:
                 index = i
-                break 
+                break
         self.tables.set_model(liststore)
         self.tables.set_active(index)
 
@@ -428,11 +428,11 @@ class ChartBrowser(gtk.VBox):
             return True
         return False
 
-    def on_menuitem_activate(self,menuitem,item): 
+    def on_menuitem_activate(self,menuitem,item):
         model,iter = self.chartview.get_selection().get_selected()
         id = model.get_value(iter,1)
         table = self.tables.get_active_text()
-        if item == _('Copiar') or item == _('Cortar'): 
+        if item == _('Copiar') or item == _('Cortar'):
             chart = curr.newchart()
             curr.datab.load_chart(table,id,chart)
             self.clip = chart
@@ -453,7 +453,7 @@ class ChartBrowser(gtk.VBox):
 
     def on_search_activated(self,entry):
         if self.tables.get_active() > 0:
-            return 
+            return
         searchlist = curr.datab.search_by_name_all_tables(entry.get_text())
         if not self.chartview is None:
             chartmodel = gtk.ListStore(str,int,str)
@@ -463,9 +463,9 @@ class ChartBrowser(gtk.VBox):
                 chartmodel.append([c[3]+glue+c[2] , int(c[1]), c[0]])
             self.chartview.set_model(chartmodel)
 
-    def on_tables_changed(self,combo): 
+    def on_tables_changed(self,combo):
         if combo.get_active() == -1: return
-        if combo.get_active() == 0: 
+        if combo.get_active() == 0:
             self.entry.set_editable(True)
             self.entry.select_region(0,-1)
             self.entry.grab_focus()
@@ -476,7 +476,7 @@ class ChartBrowser(gtk.VBox):
 
         if not self.chartview is None:
             chartmodel = gtk.ListStore(str,int)
-            chartlist = curr.datab.get_chartlist(self.tables.get_active_text()) 
+            chartlist = curr.datab.get_chartlist(self.tables.get_active_text())
             i = 0; r = 0
             for c in chartlist:
                 glue = ", "
@@ -489,7 +489,7 @@ class ChartBrowser(gtk.VBox):
             self.chartview.get_selection().select_path(r)
             self.chartview.scroll_to_cell(r)
             #self.chartview.row_activated(r,self.chartview.get_column(0))
-    
+
 
     def on_chart_activated(self,view,path,col):
         model,iter = view.get_selection().get_selected()
@@ -501,8 +501,8 @@ class ChartBrowser(gtk.VBox):
         chart = curr.charts[self.slot]
         curr.datab.load_chart(table,id,chart)
         curr.add_to_pool(copy(chart),Slot.overwrite)
-        MainPanel.actualize_pool(self.slot,chart) 
-        
+        MainPanel.actualize_pool(self.slot,chart)
+
 
     def constrainterror_dlg(self,fi,la):
         msg = _("Una carta con este nombre: %s %s existe. Sobrescribir?") % (fi,la)
@@ -512,18 +512,18 @@ class ChartBrowser(gtk.VBox):
         result = dialog.run()
         dialog.destroy()
         return result
-    
+
     def new_chart(self,chart):
         from sqlite3 import DatabaseError
         table = self.tables.get_active_text()
         try:
-            lastrow = curr.datab.store_chart(table, chart) 
+            lastrow = curr.datab.store_chart(table, chart)
         except DatabaseError:
             result = self.constrainterror_dlg(chart.first,chart.last)
             if result != gtk.RESPONSE_OK:
                 return None,None
             curr.datab.delete_chart_from_name(table,chart.first,chart.last)
-            lastrow = curr.datab.store_chart(table, chart) 
+            lastrow = curr.datab.store_chart(table, chart)
             curr.fix_couples(table,chart.first,chart.last,lastrow)
         self.tables.emit('changed')
         return lastrow,table
@@ -539,26 +539,26 @@ class MainPanel(gtk.VBox):
         global curr, boss
         boss = manager
         gtk.VBox.__init__(self,False)
-        
+
         appath = boss.app.appath
         curr = boss.get_state()
-        
+
         frame = gtk.Frame()
-        widget = Slot("master") 
+        widget = Slot("master")
         MainPanel.pool['master'] = widget
-        frame.add(widget) 
+        frame.add(widget)
         self.pack_start(frame,False)
-        
+
         frame = gtk.Frame()
-        widget = Slot("click") 
+        widget = Slot("click")
         MainPanel.pool['click'] = widget
-        frame.add(widget) 
+        frame.add(widget)
         self.pack_start(frame,False)
-        
+
         frame = gtk.Frame()
         browser = ChartBrowser(appath,boss.opts.font)
         MainPanel.browser = browser
-        frame.add(browser) 
+        frame.add(browser)
         hbox = gtk.HBox()
         hbox.pack_start(frame,True,True)
         tb = self.make_toolbar(appath,boss)
@@ -567,11 +567,11 @@ class MainPanel(gtk.VBox):
         #frame.set_snap_edge(gtk.POS_TOP)
         #frame.set_size_request(-1,240)
         frame = gtk.Frame()
-        frame.add(tb) 
+        frame.add(tb)
         self.toolbar = tb
-        hbox.pack_start(frame,False,False) 
+        hbox.pack_start(frame,False,False)
         self.pack_start(hbox,True,True)
-        
+
         self.chooser = OpPanel(boss)
         self.pack_end(self.chooser,True,True)
 
@@ -592,7 +592,7 @@ class MainPanel(gtk.VBox):
         tcal.set_icon_widget(img)
         tcal.set_tooltip_text(_("Calendario"))
         tb.insert(tcal,-1)
-    
+
         tpe = gtk.ToggleToolButton()
         tpe.connect('clicked',self.on_pebut,boss)
         img = gtk.Image()
@@ -601,7 +601,7 @@ class MainPanel(gtk.VBox):
         tpe.set_icon_widget(img)
         tpe.set_tooltip_text(_("Punto Edad"))
         tb.insert(tpe,-1)
-    
+
         twin = gtk.ToolButton()
         twin.connect('clicked',self.on_auxwin,boss)
         img = gtk.Image()
@@ -610,7 +610,7 @@ class MainPanel(gtk.VBox):
         twin.set_icon_widget(img)
         twin.set_tooltip_text(_("Ventana auxiliar"))
         tb.insert(twin,-1)
-    
+
         tasp = gtk.ToggleToolButton()
         tasp.connect('clicked',self.on_plsel,boss)
         img = gtk.Image()
@@ -675,7 +675,7 @@ class MainPanel(gtk.VBox):
 
     def on_auxwin(self,but,boss):
         boss.da.make_auxwin()
-    
+
     def on_plsel(self,but,boss):
         if but.get_active():
             boss.da.make_plsel()
@@ -684,7 +684,7 @@ class MainPanel(gtk.VBox):
 
     def on_cycles(self,but,boss):
         if but.get_active():
-            boss.da.make_cycleswin() 
+            boss.da.make_cycleswin()
         else:
             boss.da.cycleselector.exit()
 
@@ -696,10 +696,10 @@ class MainPanel(gtk.VBox):
 
     def on_pebridge(self,but,boss):
         if but.get_active():
-            boss.da.make_pebridge() 
+            boss.da.make_pebridge()
         else:
             boss.da.hide_pebridge()
-    
+
     @classmethod
     def now_timeout(panel):
         curr.set_now()
@@ -711,7 +711,7 @@ class MainPanel(gtk.VBox):
         if not panel.timeout_sid:
             boss.da.panel.nowbut.emit('clicked')
             panel.timeout_sid = gobject.timeout_add(tm*1000,panel.now_timeout)
-            
+
     @classmethod
     def stop_timeout(panel):
         if panel.timeout_sid:
@@ -724,58 +724,58 @@ class MainPanel(gtk.VBox):
         slot.namelbl.set_markup("<span foreground='blue'>"+chart.first+' '+chart.last+"</span>")
         strdate = chart.date
         date,time = parsestrtime(strdate)
-        slot.loclbl.set_text(chart.city) 
+        slot.loclbl.set_text(chart.city)
         region = chart.region
         if boss.opts.lang == 'ca' and chart.country == u'España':
             region = cata_reg[region]
-        slot.reglbl.set_text(t(chart.country)+' ('+region+')') 
+        slot.reglbl.set_text(t(chart.country)+' ('+region+')')
         geo = format_longitud(chart.longitud) + ' '+ format_latitud(chart.latitud)
         slot.datelbl.set_text(date+' '+time+' '+geo)
 
     @classmethod
     def init_pools(panel):
-        chart = curr.now 
+        chart = curr.now
         for slot in ['master','click']:
-            panel.update_slot_label(panel.pool[slot],chart) 
-        curr.curr_chart = curr.curr_click = chart 
+            panel.update_slot_label(panel.pool[slot],chart)
+        curr.curr_chart = curr.curr_click = chart
         boss.da.redraw()
         widget = panel.pool['master']
         MainPanel.slot_activate(widget)
         widget.storage_but.emit("clicked")
         #panel.start_timeout()
         if curr.load_from_pool(0,'click'):
-            panel.actualize_pool('click',curr.charts['click']) 
+            panel.actualize_pool('click',curr.charts['click'])
 
     @classmethod
     def act_now(panel,chart):
-        master_slot = panel.pool['master'] 
-        click_slot = panel.pool['click'] 
+        master_slot = panel.pool['master']
+        click_slot = panel.pool['click']
         if master_slot.chart_id != 'now' and click_slot.chart_id != 'now':
             #panel.stop_timeout()
             return
 
         slot = panel.pool[panel.active_slot]
         if slot.chart_id == 'now':
-            panel.update_slot_label(slot,chart) 
+            panel.update_slot_label(slot,chart)
             curr.curr_chart = chart
         other = panel.pool[slot.other]
         if other.chart_id == 'now':
-            panel.update_slot_label(other,chart) 
-            curr.curr_click = chart 
+            panel.update_slot_label(other,chart)
+            curr.curr_click = chart
 
     @staticmethod
-    def actualize_pool(slot,chart): 
-        slot = MainPanel.pool[slot] 
+    def actualize_pool(slot,chart):
+        slot = MainPanel.pool[slot]
 
         if boss.da.cycleselector and slot.wname == MainPanel.active_slot:
             cycles = chart.get_cycles()
-            boss.da.cycleselector.adj.set_value(cycles+1) 
-        
+            boss.da.cycleselector.adj.set_value(cycles+1)
+
         if slot.wname == MainPanel.active_slot:
             curr.curr_chart = chart
         else:
-            curr.curr_click = chart 
-        MainPanel.update_slot_label(slot,chart) 
+            curr.curr_click = chart
+        MainPanel.update_slot_label(slot,chart)
 
         if curr.curr_op == "sec_prog":
             boss.da.panel.nowbut.emit('clicked')
@@ -795,15 +795,15 @@ class MainPanel(gtk.VBox):
         slot = panel.pool[panel.active_slot]
         slot = panel.pool[slot.other]
         panel.slot_activate(slot)
-        
+
     @classmethod
     def swap_storage(panel):
         slot = panel.pool[Slot.storage]
         slot = panel.pool[slot.other]
         slot.storage_but.emit('clicked')
-    
+
     @classmethod
     def scroll_pool(panel,delta):
         slot = panel.active_slot
         if curr.load_from_pool(delta,slot):
-            panel.actualize_pool(slot,curr.charts[slot]) 
+            panel.actualize_pool(slot,curr.charts[slot])

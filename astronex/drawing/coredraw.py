@@ -21,7 +21,7 @@ R_ASP = 0.435
 
 def rebuild_paths(cr,paths):
     dispatch = { cairo.PATH_MOVE_TO: 'move_to',cairo.PATH_LINE_TO:'line_to',
-                cairo.PATH_CURVE_TO:'curve_to', cairo.PATH_CLOSE_PATH:'close_path'} 
+                cairo.PATH_CURVE_TO:'curve_to', cairo.PATH_CLOSE_PATH:'close_path'}
     for type, points in paths:
         getattr(cr,dispatch[type])(*points)
 
@@ -31,7 +31,7 @@ class CoreMixin(object):
     def __init__(self,zodiac,surface):
         self.auxcol = zodiac.auxcolors
         self.surface = surface
-    
+
     def d_ruline(self,cr,chartob):
         cr.set_source_rgb(0,0,0.4)
         cr.set_line_width(0.5)
@@ -44,12 +44,12 @@ class CoreMixin(object):
         x,y = self.ruline
         deg = math.degrees(math.atan2(y,x))
         self.surface.rulinepending = chartob.adjust_degpe(deg,chartob.chart)
-    
+
     def d_radial_line(self,cr,radius,inset,angle):
         cr.move_to(inset*math.cos(angle),inset*math.sin(angle))
         cr.line_to(radius*math.cos(angle),radius*math.sin(angle))
         cr.stroke()
-    
+
     def set_font(self,cr,size,bold=False):
         font = self.opts.font.split(" ")[0].rstrip()
         slant = cairo.FONT_SLANT_NORMAL
@@ -64,12 +64,12 @@ class CoreMixin(object):
         x = radius*math.cos(angle); y= radius*math.sin(angle)
         cr.move_to(x-width/2,y+height/2)
         cr.show_text(text)
-    
+
     def d_gold_circle(self,cr,angle,radius,scl):
         cr.arc(radius*math.cos(angle),
                radius*math.sin(angle),1.5*scl,0,360*RAD)
-        cr.fill() 
-    
+        cr.fill()
+
     def d_inner_circles(self,cr,radius):
         cr.save()
         cr.set_source_rgb(1,1,1)
@@ -79,12 +79,12 @@ class CoreMixin(object):
         cr.set_line_width(0.35*cr.get_line_width())
         cr.stroke()
         cr.arc(0,0,radius*R_INNER,0,360*RAD)
-        cr.stroke() 
+        cr.stroke()
         cr.restore()
 
     def d_pe_zones(self,cr,radius,chartob):
         cross = chartob.chart.calc_cross_points()
-        node = chartob.get_planets()[10] 
+        node = chartob.get_planets()[10]
         offset = chartob.get_cross_offset()
         cp1_ang = chartob.sup_cross(offset-cross)
         cp2_ang = chartob.sup_cross(offset-cross-180)
@@ -131,7 +131,7 @@ class CoreMixin(object):
             cr.move_to(0,0)
             cr.arc(0,0,radius*R_INNER*0.7,nod_ang,0)
             cr.fill()
-        
+
         cr.set_source_rgb(*cols['pink'])
         cr.move_to(0,0)
         cr.arc(0,0,radius*R_INNER,180*RAD,cp2_ang)
@@ -148,7 +148,7 @@ class CoreMixin(object):
         cr.set_line_width(0.35*cr.get_line_width())
         cr.stroke()
         cr.arc(0,0,radius*0.75,0,360*RAD)
-        cr.stroke() 
+        cr.stroke()
         cr.restore()
 
     def d_year_lines(self,cr,radius,chartob):
@@ -172,7 +172,7 @@ class CoreMixin(object):
             for j in range(1,6):
                 angle = (off - ysize * j) * RAD
                 self.d_radial_line(cr,radius,inset,angle)
-                year += 1 
+                year += 1
                 if j == 4:
                     yr = str(year)[2:]
                     self.d_radial_text(cr,radius+16,angle,yr)
@@ -188,17 +188,17 @@ class CoreMixin(object):
             scl *= 1.3
         cr.save()
         for house,low,inv in low_inv_gen:
-            cr.set_source_rgb(*self.auxcol['low']) 
+            cr.set_source_rgb(*self.auxcol['low'])
             angle = (offset-house-low)*RAD
-            self.d_gold_circle(cr,angle,lowradius,scl) 
-            cr.set_source_rgb(*self.auxcol['inv']) 
+            self.d_gold_circle(cr,angle,lowradius,scl)
+            cr.set_source_rgb(*self.auxcol['inv'])
             angle = (offset-house-inv)*RAD
-            self.d_gold_circle(cr,angle,invradius,scl) 
+            self.d_gold_circle(cr,angle,invradius,scl)
         cr.restore()
-    
+
     def make_all_rulers(self,cr,radius,chartob,mid=False):
         R_RULEDINNER, R_RULEDOUTER, R_RULEDMID = chartob.get_ruled()
-        rules = { R_RULEDOUTER: [0.016,0.010,0.004], 
+        rules = { R_RULEDOUTER: [0.016,0.010,0.004],
                 R_RULEDMID: [0.014,0.010,0.004],
                 R_RULEDINNER:  [-0.018,-0.012,-0.004]}
         offset = chartob.get_offset()
@@ -209,8 +209,8 @@ class CoreMixin(object):
 
     def make_ruler(self,cr,radius,chartob,rule,rules,offset):
         insets = [radius * i for i in rules[rule]]
-        radius = radius * rule 
-        
+        radius = radius * rule
+
         default = insets.pop()
         insets = dict(zip((0,5),insets))
         try:
@@ -230,7 +230,7 @@ class CoreMixin(object):
 
     def d_radial_lines(self,cr,radius,chartob):
         sign_cusps = chartob.get_sign_cusps()
-        fac,ins,_ = chartob.get_radial_param()
+        fac,ins,_ = chartob.get_radial_param() #R_RULEDINNER, R_LINSET,R_RULEDOUTER)
         radius = radius * fac
         cr.save()
         cr.set_source_rgb(0,0,0)
@@ -242,10 +242,10 @@ class CoreMixin(object):
             angle = (180-i) * RAD
             self.d_radial_line(cr,radius+inset,radius,angle)
         cr.restore()
-    
+
     def d_cross_points(self,cr,radius,chartob):
         fac,ins,_ = chartob.get_radial_param()
-        radius = radius * fac 
+        radius = radius * fac
         cr.save()
         if self.surface .__class__.__name__ == 'DrawPdf':
             cr.set_line_width(0.75*cr.get_line_width())
@@ -256,7 +256,7 @@ class CoreMixin(object):
         cross = chartob.chart.calc_cross_points()
         offset = chartob.get_cross_offset()
         for i in (0,180):
-            angle = chartob.sup_cross(offset-cross-i) * RAD 
+            angle = chartob.sup_cross(offset-cross-i) * RAD
             self.d_radial_line(cr,radius+inset,radius*0.965,angle)
         cr.restore()
 
@@ -273,7 +273,7 @@ class CoreMixin(object):
             sign_fac = 1.02
 
         #if pdfsoul:
-        #    w = self.surface.w; h = self.surface.h 
+        #    w = self.surface.w; h = self.surface.h
         #    tmp_cr = cr
         #    target = cr.get_target()
         #    #over = target.create_similar(cairo.CONTENT_COLOR_ALPHA,int(w),int(h))
@@ -297,10 +297,9 @@ class CoreMixin(object):
                 col = z.col
             cr.scale(sclx,sclyy)
             rebuild_paths(cr,z.paths)
-            #print z.let, z.col
             paint(self,cr,col,radius)
             cr.restore()
-        
+
         #if pdfsoul:
         #    cr = tmp_cr
         #    cr.set_source_surface(over,-w/2,-h/2)
@@ -322,7 +321,7 @@ class CoreMixin(object):
         cr.set_source(pat)
         cr.fill_preserve()
         cr.set_source_rgb(*color)
-        cr.stroke() 
+        cr.stroke()
 
     def paint_radsoul_sign(self,cr,color,radius):
         vdistance = radius*1.25 - radius
@@ -333,7 +332,7 @@ class CoreMixin(object):
         pat.add_color_stop_rgba(*colstop)
         cr.set_source(pat)
         cr.fill()
-    
+
     def paint_nod_sign(self,cr,color,radius=None):
         #path = cr.copy_path()
         cr.set_source_rgba(*(list(color) + [0.1]))
@@ -345,7 +344,7 @@ class CoreMixin(object):
 
     paint = {'basic': paint_basic_sign, 'soul': paint_soul_sign, 'nodal':
             paint_nod_sign, 'radsoul': paint_radsoul_sign, 'plagram': paint_basic_sign}
-    
+
     #### plan and lines
     def set_plots(self,chartob,plot="plot1"):
         plots = chartob.inject_plan_degrees()
@@ -355,10 +354,10 @@ class CoreMixin(object):
     def draw_planets(self,cr,radius,chartob,plot="plot1"):
         chartob.check_moons()
         plots = self.set_plots(chartob,plot)
-        glyphs = chartob.plmanager.glyphs 
+        glyphs = chartob.plmanager.glyphs
         scl = radius * chartob.plan_scale
         r_pl = radius *  chartob.get_rpl()
-        click_col = chartob.get_col() 
+        click_col = chartob.get_col()
         for glyph,plot in izip(glyphs,plots):
             cr.save()
             rpl = r_pl * plot.fac
@@ -375,25 +374,25 @@ class CoreMixin(object):
             if click_col:
                 cr.set_source_rgb(*self.auxcol[click_col])
             else:
-                cr.set_source_rgb(*glyph.col) 
+                cr.set_source_rgb(*glyph.col)
             cr.fill()
-            cr.restore() 
-    
+            cr.restore()
+
     def draw_urnodal_planets(self,cr,radius,chartob,plot="plot1"):
         cusps = chartob.get_cusps_offsets()
-        cusps = [ c % 360 for c in cusps ] 
+        cusps = [ c % 360 for c in cusps ]
         sizes = chartob.get_sizes()
         chartob.check_moons()
         chartob.__class__ = NodalChart
-        
+
         plots = self.set_plots(chartob,plot)
-        glyphs = chartob.plmanager.glyphs 
+        glyphs = chartob.plmanager.glyphs
         scl = radius * chartob.plan_scale
         r_pl = radius *  chartob.get_rpl()
         for glyph,plot in izip(glyphs,plots):
             cr.save()
             rpl = r_pl * plot.fac
-            
+
             plot.degree %= 360.0
             h = (5 - int(plot.degree/30)) % 12
             dist = 30.0 - plot.degree % 30.0
@@ -406,9 +405,9 @@ class CoreMixin(object):
             cr.translate(rpl*math.cos(angle) - shiftx, rpl*math.sin(angle) + shifty)
             cr.scale(scl,scl)
             rebuild_paths(cr,glyph.paths)
-            cr.set_source_rgb(*glyph.col) 
+            cr.set_source_rgb(*glyph.col)
             cr.fill()
-            cr.restore() 
+            cr.restore()
         chartob.__class__ = RadixChart
 
 
@@ -421,26 +420,26 @@ class CoreMixin(object):
         if click_col:
             cr.set_source_rgb(*self.auxcol[click_col])
         cr.save()
-        cr.set_line_width(line_width*lw) 
+        cr.set_line_width(line_width*lw)
         plots = getattr(chartob.plmanager,plot)
         glyphs = chartob.plmanager.glyphs
         for glyph,plt in izip(glyphs,plots):
             angle = plt.degree * RAD
             if not click_col:
-                cr.set_source_rgb(*glyph.col) 
+                cr.set_source_rgb(*glyph.col)
             self.d_radial_line(cr,radius,radius-inset,angle)
         cr.restore()
-    
+
     def draw_ap_aspects(self,cr,radius,chartob,man,pe):
         chart = chartob.chart
         if chartob.name == 'nodal':
             pedraw = pe + 180 - chartob.chart.planets[10]
-        else: 
+        else:
             pedraw = 180 + chartob.chart.houses[0] - pe
         pe_col = chartob.pe_col
         r = radius
         rap = (radius/R_ASP)*R_RULEDINNER
-        xap = math.cos(pedraw*RAD); yap = math.sin(pedraw*RAD) 
+        xap = math.cos(pedraw*RAD); yap = math.sin(pedraw*RAD)
         cr.set_line_width(0.5 * cr.get_line_width())
         cr.set_source_rgba(*(list(pe_col)+[0.65]))
         scl = radius * chartob.plan_scale
@@ -458,7 +457,7 @@ class CoreMixin(object):
                 self.surface.pepending[-1] = pe
         except AttributeError:
             pass
-    
+
     def d_lonely_cusp(self,cr,radius,chartob):
         chart = chartob.chart
         offh = 180 + chart.houses[0] - chart.houses[9]
@@ -468,7 +467,7 @@ class CoreMixin(object):
         cr.set_source_rgb(1,0.8,0.8)
         #cr.set_line_width(cr.get_line_width())
         self.d_radial_line(cr,fcusp,r,offh*RAD)
-        cr.restore() 
+        cr.restore()
 
     def draw_double_cusp(self,cr,radius,chartob):
         offset1 = 180 + chartob.chart.houses[0]
@@ -490,7 +489,7 @@ class CoreMixin(object):
             x = fcusp*math.cos(offh1*RAD)
             y = fcusp*math.sin(offh1*RAD)
             cr.line_to(x,y)
-            cr.stroke() 
+            cr.stroke()
             thiscusp = self.cuspnames[i]
             if i == 0: x *= 1.01; y -= 2
             cr.move_to(x*1.007,y*1.007)
@@ -502,7 +501,7 @@ class CoreMixin(object):
                 x = fcusp*math.cos(offh2*RAD)
                 y = fcusp*math.sin(offh2*RAD)
                 cr.line_to(x,y)
-                cr.stroke() 
+                cr.stroke()
                 thiscusp = self.cuspnames[i]
                 cr.move_to(x*1.007,y*1.007)
                 cr.show_text(thiscusp)
@@ -511,16 +510,16 @@ class CoreMixin(object):
     def draw_cusps(self,cr,radius,chartob,transit=False):
         chart = chartob.chart
         radius = radius * chartob.get_cusp_radfac()
-        cusp_cols = cycle(((0.8,0,0),(0,0,0.6),(0,0.5,0)))  
+        cusp_cols = cycle(((0.8,0,0),(0,0,0.6),(0,0.5,0)))
         lw = cr.get_line_width()
-        lwidth_iter = cycle(chartob.cusps_widths)        
+        lwidth_iter = cycle(chartob.cusps_widths)
         cuspnames = iter(self.cuspnames)
         cr.save()
         font_size = chartob.cusp_font_size * radius * MAGICK_FONTSCALE
         self.set_font(cr,font_size)
         fcusp = radius * chartob.cuspfac
-        if transit: 
-            fcusp = (radius*1.47) 
+        if transit:
+            fcusp = (radius*1.47)
         dx = iter(chartob.dx)
         dy = iter(chartob.dy)
         for angle in chartob.get_cusps_offsets():
@@ -533,11 +532,11 @@ class CoreMixin(object):
             thiscusp = cuspnames.next()
             _,_, width, height,_,_ = cr.text_extents(thiscusp)
             x = width*dx.next()
-            y = height*dy.next() 
+            y = height*dy.next()
             cr.move_to(thex+x,they+y)
             cr.show_text(thiscusp)
-        cr.restore() 
-    
+        cr.restore()
+
     def d_house_zones(self,cr,radius,chartob):
         cols = chartob.zonecols
         percents = [0.21,0.41,0.68,0.75,0.87,0.97,1.0]
@@ -562,7 +561,7 @@ class CoreMixin(object):
                 cr.arc_negative(0,0,radius,prev_angle,angle)
                 cr.stroke()
                 prev_angle = angle
-        cr.restore() 
+        cr.restore()
 
     def d_local_trimming(self,cr,radius,chartob):
         chart = chartob.chart
@@ -580,13 +579,13 @@ class CoreMixin(object):
         for size,house in zip(chart.sizes(),chart.houses):
             trimsize = size / 30
             for j in range(1,30):
-                cr.set_source_rgb(*cols[j % 5 == 0]) 
+                cr.set_source_rgb(*cols[j % 5 == 0])
                 angle = (off - house - trimsize*j) * RAD
                 self.d_radial_line(cr,fcusp*wave[j],radius,angle)
-        cr.restore() 
+        cr.restore()
 
     def d_house_trimming(self,cr,radius,h):
-        offset = 180 
+        offset = 180
         size = 30.0
         low = radius * 0.79
         cusp = radius  * 0.89
@@ -595,23 +594,23 @@ class CoreMixin(object):
         cr.save()
         surfname = self.surface.__class__.__name__
 
-        if surfname  == 'DrawPdf': 
+        if surfname  == 'DrawPdf':
             cr.set_line_width(0.5*cr.get_line_width())
         else:
             cr.set_line_width(1.1*cr.get_line_width())
 
-        for i in range(12): 
-            off = offset-i*30 
+        for i in range(12):
+            off = offset-i*30
             bx = low*math.cos((off+inv)*RAD)
             by = low*math.sin((off+inv)*RAD)
             cr.move_to(bx,by)
-            
+
             x = cusp*math.cos(off*RAD)
             y = cusp*math.sin(off*RAD)
             lx = low*math.cos((off-talk)*RAD)
             ly = low*math.sin((off-talk)*RAD)
 
-            if surfname  == 'DrawPdf': 
+            if surfname  == 'DrawPdf':
                 if i % 3 == 0:
                     cr.set_source_rgb(0.7,0,0)
                 elif i % 3 == 1:
@@ -635,24 +634,24 @@ class CoreMixin(object):
             ily = low*math.sin((off+inv*0.45)*RAD)
             ix = 0.95*cusp*math.cos((off+inv*0.15)*RAD)
             iy = 0.95*cusp*math.sin((off+inv*0.15)*RAD)
-            
+
             tx = 0.95*cusp*math.cos((off-inv*0.45)*RAD)
             ty = 0.95*cusp*math.sin((off-inv*0.45)*RAD)
             tlx = low*math.cos((off-talk*0.7)*RAD)
             tly = low*math.sin((off-talk*0.7)*RAD)
-            
+
             cr.curve_to(ilx,ily,ix,iy,x,y)
             cr.curve_to(tx,ty,tlx,tly,lx,ly)
-            cr.stroke() 
+            cr.stroke()
         cr.restore()
-    
+
     def d_dharma_trimming(self,cr,radius,w,h,chartob=None):
         cusps = chartob.get_cusps_offsets()
         sizes = chartob.get_sizes()
-        offset = 180 
+        offset = 180
         low = radius * 0.78
         cusp = radius  * 0.89
-        
+
         target = cr.get_target()
         over = target.create_similar(cairo.CONTENT_COLOR_ALPHA,w,h)
         over_cr = cairo.Context(over)
@@ -660,7 +659,7 @@ class CoreMixin(object):
         over_cr.set_operator (cairo.OPERATOR_ADD)
 
         cr.save()
-        surfname = self.surface.__class__.__name__ 
+        surfname = self.surface.__class__.__name__
         tmp_cr = cr
         cr = over_cr
 
@@ -669,7 +668,7 @@ class CoreMixin(object):
         #maskpat.add_color_stop_rgba(0.3,0,0,0,1)
         maskpat.add_color_stop_rgba(1,0,0,0,0)
 
-        for i in range(12): 
+        for i in range(12):
             off = cusps.next()
             size = sizes[i]
             talk = size * PHI
@@ -682,7 +681,7 @@ class CoreMixin(object):
             cr.move_to(bx,by)
             bx = cusp*math.cos((off+inv0)*RAD)
             by = cusp*math.sin((off+inv0)*RAD)
-            cr.line_to(bx,by) 
+            cr.line_to(bx,by)
             cr.arc_negative(0,0,cusp, (off+inv0)*RAD ,(off-talk)*RAD )
             x = low*math.cos((off-talk)*RAD)
             y = low*math.sin((off-talk)*RAD)
@@ -709,10 +708,10 @@ class CoreMixin(object):
         cr = tmp_cr
         cr.set_source_surface(over,-w/2,-h/2)
         #cr.paint()
-            
+
         cr.mask(maskpat)
         cr.restore()
-    
+
     def d_coup_dates(self,cr,w,h,ch,col,dts):
         cr.save()
         radius = min(w,h) * 0.47
@@ -728,7 +727,7 @@ class CoreMixin(object):
             w = logical[2]/pango.SCALE
             h = logical[3]/pango.SCALE
             cr.move_to(radius*math.cos(dt*RAD)-w/2,radius*math.sin(dt*RAD)-h/2)
-            cr.show_layout(layout) 
+            cr.show_layout(layout)
             self.d_radial_line(cr,radius*0.83,radius*0.96,dt*RAD)
             cr.arc(radius*math.cos(dt*RAD),
                 radius*math.sin(dt*RAD),radius*0.04,0,360*RAD)
@@ -775,27 +774,27 @@ class CoreMixin(object):
             angle = (180-i) * RAD
             self.d_radial_line(cr,radius+inset,radius,angle)
         cr.restore()
-    
+
     def make_spec_ruler(self,cr,radius,chartob,rule,rules,offset):
         cols = [(0.55,0,0),(0,0.5,0),(0.9,0.4,0),(0,0.0,0.6)]
         asc =   chartob.get_ascendant() % 4
         insets = [radius * i for i in rules[rule]]
-        radius = radius * rule 
+        radius = radius * rule
         default = insets.pop()
         insets = dict(zip((0,5),insets))
         cr.save()
         cr.set_line_width(0.5*cr.get_line_width())
         for i in xrange(360):
-            if i % 30 == 0: 
+            if i % 30 == 0:
                 cr.set_source_rgb(*cols[(asc + i/30)%4])
             angle = (180+offset-i) * RAD
             inset = radius - insets.get(i%10,default)
             self.d_radial_line(cr,radius,inset,angle)
         cr.restore()
-    
+
     def make_all_urn_rulers(self,cr,radius,chartob):
         R_RULEDINNER, R_RULEDOUTER, R_RULEDMID = chartob.get_ruled()
-        rules = { R_RULEDOUTER: [0.016,0.010,0.004], 
+        rules = { R_RULEDOUTER: [0.016,0.010,0.004],
                 R_RULEDMID: [0.014,0.010,0.004],
                 R_RULEDINNER:  [-0.018,-0.012,-0.004]}
         offset = chartob.get_offset()

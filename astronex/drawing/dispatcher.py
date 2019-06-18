@@ -9,7 +9,7 @@ from diagrams import DiagramMixin
 from datasheets import SheetMixin
 from paarwabe import PaarWabeMixin
 from planetogram import PlanetogramMixin
-import roundedcharts 
+import roundedcharts
 from aspects import AspectManager
 from roundedcharts import *
 from datetime import datetime, date, time
@@ -31,7 +31,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
     uniaspect = True
     allclick = False
     egoclick = False
-    extended_canvas = False 
+    extended_canvas = False
     pe_zones = False
     hzones = False
     ruline = None
@@ -47,7 +47,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.surface = surface
         DrawMixin.surface = surface
         DrawMixin.planetmanager or self.set_plmanager()
-        roundedcharts.planetmanager = DrawMixin.planetmanager 
+        roundedcharts.planetmanager = DrawMixin.planetmanager
         roundedcharts.zodiac= opts.zodiac
         self.aspmanager = AspectManager(boss,self.get_gw,self.get_uni,self.get_nw, DrawMixin.planetmanager,opts.zodiac.aspcolors,opts.base)
         CoreMixin.__init__(self,opts.zodiac,surface)
@@ -60,7 +60,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         #PlanetogramMixin.__init__(self,opts.zodiac)
         self.rightdraw = False
         self.trdiscard = opts.discard
-    
+
     def set_plmanager(self):
         DrawMixin.planetmanager = PlanetManager(self.opts.zodiac)
 
@@ -75,7 +75,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.d_golden_points(cr,radius,chartob)
 
     def draw_nat(self,cr,width,height,chartob=None):
-        chartob.__class__ = RadixChart 
+        chartob.__class__ = RadixChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
 
@@ -99,7 +99,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
             self.d_ruline(cr,chartob)
 
     def draw_nat_strict(self,cr,width,height,chartob=None):
-        chartob.__class__ = RadixChart 
+        chartob.__class__ = RadixChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
 
@@ -108,7 +108,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.aspmanager.manage_aspects(cr,radius*R_ASP,chartob.get_planets())
         self.make_plines(cr,radius,chartob,'INN')
         self.d_inner_circles(cr,radius)
-    
+
     def subject_click(self,cr,width,height,chartob=None):
         cx,cy = width/2,height/2
         radius = min(cx,cy)
@@ -122,7 +122,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'EXT')
         self.draw_cusps(cr,radius,chartob)
         self.d_year_lines(cr,radius*1.05,chartob)
-        self.d_golden_points(cr,radius*1.05,chartob) 
+        self.d_golden_points(cr,radius*1.05,chartob)
         self.d_cross_points(cr,radius,chartob)
         if showAP:
             self.draw_ap_aspects(cr,radius*RR_ASP,chartob,self.aspmanager,self.get_AP(chartob))
@@ -143,16 +143,16 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.draw_planets(cr,radius*0.7,chartob)
         if showEA:
             self.set_plots(chartob)
-            chartob.pl_insets['INN'] = 0.09 
+            chartob.pl_insets['INN'] = 0.09
             self.aspmanager.manage_aspects(cr,radius*RR_ASP,chartob.get_planets())
         else:
             chartob.pl_insets['INN'] = -0.03
         self.make_plines(cr,radius*0.89,chartob,'INN')
         self.d_inner_circles(cr,radius*0.8)
-        chartob.pl_insets['INN'] = 0.09 
+        chartob.pl_insets['INN'] = 0.09
 
     def draw_ur_nodal(self,cr,width,height,chartob=None):
-        chartob.__class__ = UrNodal 
+        chartob.__class__ = UrNodal
         cx,cy = width/2,height/2
         radius = min(cx,cy)
 
@@ -178,7 +178,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.set_iter_sizes()
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-    
+
         if not onlyEA:
             self.make_crown(cr,radius,chartob)
             self.d_house_trimming(cr,radius,height)
@@ -188,29 +188,29 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.aspmanager.manage_aspects(cr,radius*R_ASP,chartob.get_planets())
         self.make_plines(cr,radius,chartob,'INN')
         self.d_inner_circles(cr,radius)
-    
+
     def draw_dharma(self,cr,width,height,chartob=None):
         chartob.__class__ = DharmaChart
         #chartob.set_iter_sizes()
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-    
+
         self.d_radial_lines(cr,radius,chartob)
         self.make_all_rulers(cr,radius,chartob)
-        chartob.name = 'soul' 
+        chartob.name = 'soul'
         self.draw_signs(cr,radius,chartob)
         chartob.__class__ = DharmaChart
-        
+
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT')
-        
+
         self.draw_cusps(cr,radius,chartob)
         self.d_dharma_trimming(cr,radius,width,height,chartob)
         self.d_year_lines(cr,radius,chartob)
         self.d_golden_points(cr,radius,chartob)
         if self.ruline:
             self.d_ruline(cr,chartob)
-        
+
         if showAP:
             self.draw_ap_aspects(cr,radius*R_ASP,chartob,self.aspmanager,self.get_AP(chartob))
         self.aspmanager.manage_aspects(cr,radius*R_ASP,chartob.get_planets())
@@ -218,11 +218,11 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.d_inner_circles(cr,radius)
 
     def draw_soul(self,cr,width,height,chartob=None):
-        chartob.__class__ = SoulChart 
-        chartob.name = 'soul' 
+        chartob.__class__ = SoulChart
+        chartob.name = 'soul'
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
+
         if not onlyEA:
             self.make_crown(cr,radius,chartob)
         else:
@@ -236,9 +236,9 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.d_inner_circles(cr,radius)
         if self.ruline:
             self.d_ruline(cr,chartob)
-    
+
     def draw_local(self,cr,width,height,chartob=None):
-        chartob.__class__ = LocalChart 
+        chartob.__class__ = LocalChart
         chart = chartob.chart
         oldhouses = chart.houses[:]
         chart.houses = chart.calc_localhouses()
@@ -258,13 +258,13 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN')
         self.d_inner_circles(cr,radius)
         chart.houses = oldhouses[:]
-    
+
     def draw_nod(self,cr,width,height,chartob=None):
         chartob.__class__ = NodalChart
-        chartob.name = 'nodal' 
+        chartob.name = 'nodal'
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
+
         if not onlyEA:
             if self.pe_zones:
                 self.d_pe_zones(cr,radius,chartob)
@@ -280,9 +280,9 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.d_inner_circles(cr,radius)
         if self.ruline:
             self.d_ruline(cr,chartob)
-    
+
     def click_counter(self,cr,width,height,chartob):
-        chartob.__class__ = CounterChart 
+        chartob.__class__ = CounterChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
 
@@ -293,7 +293,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.d_year_lines(cr,radius,chartob)
         self.d_golden_points(cr,radius,chartob)
         self.d_cross_points(cr,radius,chartob)
-        
+
         chartob.swap_charts()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT')
@@ -311,8 +311,8 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         dates = boss.search_couple(female,male)
         if dates:
             onlydates = [ d[0] for d in dates]
-            she_col = (0.72,0.58,0) 
-            he_col = (0.74,0.42,0.85) 
+            she_col = (0.72,0.58,0)
+            he_col = (0.74,0.42,0.85)
             coup_dts1 = []; coup_dts2 = []
             for d in onlydates:
                 dt = [ int(x) for x in d.split("/") ]
@@ -324,30 +324,30 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
                 chart = chartob.click
                 cycles = chart.get_cycles(dt)
                 coup_dts2.append(chart.which_degree_today(dt,cycles,chartob.name))
-        
-        cx,cy = width/2,height/2 
+
+        cx,cy = width/2,height/2
         curr.opmode = 'double'
         cr.translate(-cx/2,-cy/2)
         self.draw_nat_strict(cr,cx,cy,chartob)
         if dates:
             chart = chartob.chart
-            self.d_coup_dates(cr,cx,cy,chart,she_col,coup_dts1) 
+            self.d_coup_dates(cr,cx,cy,chart,she_col,coup_dts1)
         cr.translate(cx,cy)
         self.click_counter(cr,cx,cy,chartob)
         if dates:
-            self.d_coup_dates(cr,cx,cy,chart,she_col,coup_dts1) 
+            self.d_coup_dates(cr,cx,cy,chart,she_col,coup_dts1)
         cr.translate(0,-cy)
         self.draw_nat_strict(cr,cx,cy,chartob)
         if dates:
             chart = chartob.chart
-            self.d_coup_dates(cr,cx,cy,chart,he_col,coup_dts2) 
+            self.d_coup_dates(cr,cx,cy,chart,he_col,coup_dts2)
         cr.translate(-cx,cy)
         self.click_counter(cr,cx,cy,chartob)
         if dates:
-            self.d_coup_dates(cr,cx,cy,chart,he_col,coup_dts2) 
+            self.d_coup_dates(cr,cx,cy,chart,he_col,coup_dts2)
         cr.translate(-cx/2,0)
         curr.opmode = 'simple'
-        
+
     def click_hh(self,cr,width,height,chartob=None):
         cx,cy = width/2,height/2
         radius = min(cx,cy)*0.9
@@ -371,21 +371,21 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         plan2 = chartob.get_planets()
         chartob.swap_charts()
-        
+
         self.make_all_rulers(cr,radius,chartob,mid=True)
-        self.draw_cusps(cr,radius,chartob) 
-        
-        flt = 'click' if not self.egoclick else 'pers' 
-        flt = flt if not self.allclick else None 
+        self.draw_cusps(cr,radius,chartob)
+
+        flt = 'click' if not self.egoclick else 'pers'
+        flt = flt if not self.allclick else None
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter=flt)
         self.d_inner_circles(cr,radius)
 
     def click_nn(self,cr,width,height,chartob=None):
         cx,cy = width/2,height/2
         radius = min(cx,cy)*0.9
-        
+
         chartob.__class__ = NodalNodalChart
-        chartob.name = 'nodal' 
+        chartob.name = 'nodal'
         chartob.prepare_params1()
         self.d_radial_lines(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
@@ -402,32 +402,32 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         plan2 = chartob.get_planets(True)
         chartob.swap_charts()
-        
-        self.make_all_rulers(cr,radius,chartob,mid=True) 
-        self.draw_cusps(cr,radius,chartob) 
-        flt = 'click' if not self.egoclick else 'pers' 
-        flt = flt if not self.allclick else None 
+
+        self.make_all_rulers(cr,radius,chartob,mid=True)
+        self.draw_cusps(cr,radius,chartob)
+        flt = 'click' if not self.egoclick else 'pers'
+        flt = flt if not self.allclick else None
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter=flt)
         self.d_inner_circles(cr,radius)
 
     def draw_transits(self,cr,width,height,chartob=None):
         chartob.click  = curr.charts['now']
-        
+
         chartob.__class__ = TransitChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
+
         self.d_radial_lines(cr,radius,chartob)
-        self.make_all_rulers(cr,radius,chartob) 
+        self.make_all_rulers(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
         self.draw_cusps(cr,radius,chartob,transit=True)
-        
+
         chartob.prepare_params1()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT',plot='plot1')
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
-        
+
         chartob.swap_charts()
         chartob.prepare_params2()
         self.draw_planets(cr,radius,chartob,plot='plot2')
@@ -447,27 +447,27 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.d_inner_circles(cr,radius)
         if self.ruline:
             self.d_ruline(cr,chartob)
-        
+
     def draw_radsoul(self,cr,width,height,chartob=None):
         chartob.click = chartob.chart
-        
+
         chartob.__class__ = RadixRadixChart
-        chartob.name = 'soul' 
+        chartob.name = 'soul'
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
+
         self.d_radial_lines(cr,radius,chartob)
-        self.make_all_rulers(cr,radius,chartob) 
+        self.make_all_rulers(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
         #self.draw_double_cusp(cr,radius*0.82,chartob)
         self.draw_cusps(cr,radius*0.82,chartob)
-        
+
         chartob.prepare_params1()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT',plot='plot1')
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
-        
+
         chartob.swap_charts()
         chartob.prepare_params2()
         chartob.__class__ = SoulChart
@@ -478,30 +478,30 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'EXT',plot='plot2')
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         chartob.swap_charts()
-        
+
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter='click')
         self.d_inner_circles(cr,radius)
-        
+
     def draw_raddharma(self,cr,width,height,chartob=None):
         chartob.click = chartob.chart
-        
+
         chartob.__class__ = RadixDharmaChart
-        chartob.name = 'soul' 
+        chartob.name = 'soul'
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
+
         self.d_radial_lines(cr,radius,chartob)
-        self.make_all_rulers(cr,radius,chartob) 
+        self.make_all_rulers(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
         #self.draw_double_cusp(cr,radius*0.82,chartob)
         self.draw_cusps(cr,radius*0.82,chartob)
-        
+
         chartob.prepare_params1()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT',plot='plot1')
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
-        
+
         chartob.swap_charts()
         chartob.prepare_params2()
         chartob.__class__ = DharmaChart
@@ -512,7 +512,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'EXT',plot='plot2')
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         chartob.swap_charts()
-        
+
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter='click')
         self.d_inner_circles(cr,radius)
 
@@ -520,18 +520,18 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.__class__ = RadixRadixChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
+
         self.d_radial_lines(cr,radius,chartob)
-        self.make_all_rulers(cr,radius,chartob) 
+        self.make_all_rulers(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
         self.draw_double_cusp(cr,radius*0.82,chartob)
-        
+
         chartob.prepare_params1()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT',plot='plot1')
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
-        
+
         chartob.swap_charts()
         chartob.prepare_params2()
         self.draw_planets(cr,radius,chartob,plot='plot2')
@@ -539,8 +539,8 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.swap_charts()
         self.make_plines(cr,radius,chartob,'EXT',plot='plot2')
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
-        flt = 'click' if not self.egoclick else 'pers' 
-        flt = flt if not self.allclick else None 
+        flt = 'click' if not self.egoclick else 'pers'
+        flt = flt if not self.allclick else None
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter=flt)
         self.d_inner_circles(cr,radius)
 
@@ -548,19 +548,19 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.__class__ = SoulSoulChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
-        chartob.name = 'soul' 
+
+        chartob.name = 'soul'
         self.d_radial_lines(cr,radius,chartob)
-        self.make_all_rulers(cr,radius,chartob) 
+        self.make_all_rulers(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
         self.draw_double_cusp(cr,radius*0.82,chartob)
-        
+
         chartob.prepare_params1()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT',plot='plot1')
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
-        
+
         chartob.swap_charts()
         chartob.prepare_params2()
         self.draw_planets(cr,radius,chartob,plot='plot2')
@@ -568,8 +568,8 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.swap_charts()
         self.make_plines(cr,radius,chartob,'EXT',plot='plot2')
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
-        flt = 'click' if not self.egoclick else 'pers' 
-        flt = flt if not self.allclick else None 
+        flt = 'click' if not self.egoclick else 'pers'
+        flt = flt if not self.allclick else None
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter=flt)
         self.d_inner_circles(cr,radius)
 
@@ -577,19 +577,19 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.__class__ = RadixRadixChart
         cx,cy = width/2,height/2
         radius = min(cx,cy)
-        
-        chartob.name = 'radsoul' 
+
+        chartob.name = 'radsoul'
         self.d_radial_lines(cr,radius,chartob)
-        self.make_all_rulers(cr,radius,chartob) 
+        self.make_all_rulers(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
         self.draw_double_cusp(cr,radius*0.82,chartob)
-        
+
         chartob.prepare_params1()
         self.draw_planets(cr,radius,chartob)
         self.make_plines(cr,radius,chartob,'EXT',plot='plot1')
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
-        
+
         chartob.__class__ = SoulSoulChart
         chartob.swap_charts()
         chartob.prepare_params2()
@@ -598,13 +598,13 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         chartob.swap_charts()
         self.make_plines(cr,radius,chartob,'EXT',plot='plot2')
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
-        flt = 'click' if not self.egoclick else 'pers' 
-        flt = flt if not self.allclick else None 
+        flt = 'click' if not self.egoclick else 'pers'
+        flt = flt if not self.allclick else None
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter=flt)
         self.d_inner_circles(cr,radius)
-    
+
     def click_bridge(self,cr,width,height,chartob):
-        cx,cy = width/2,height/2 
+        cx,cy = width/2,height/2
         curr.opmode = 'double'
         cr.translate(cx/2,cy)
         cr.scale(1.15,1.15)
@@ -618,7 +618,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         curr.opmode = 'simple'
 
     def rad_and_transit(self,cr,width,height,chartob):
-        cx,cy = width/2,height/2 
+        cx,cy = width/2,height/2
         curr.opmode = 'double'
         cr.translate(cx/2,cy)
         cr.scale(1.15,1.15)
@@ -630,19 +630,19 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         cr.scale(1/1.15,1/1.15)
         cr.translate(-cx/2,0)
         curr.opmode = 'simple'
-    
+
     def draw_single(self,cr,w,h,chartob):
         chartob.click = chartob.chart
         self.click_hn(cr,w,h,chartob,filter='single')
-    
+
     def draw_int(self,cr,w,h,chartob):
         chartob.click = chartob.chart
         self.click_hn(cr,w,h,chartob,filter='int')
-    
+
     def click_hn(self,cr,width,height,chartob,filter='click'):
         cx,cy = width/2,height/2
         radius = min(cx,cy)*0.9
-        
+
         chartob.__class__ = HouseHouseChart
         chartob.set_iter_sizes()
         chartob.prepare_params1()
@@ -653,7 +653,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
         chartob.__class__ = NodalNodalChart
-        chartob.name = 'nodal' 
+        chartob.name = 'nodal'
         chartob.swap_charts()
         chartob.prepare_params2()
         self.d_radial_lines(cr,radius,chartob)
@@ -664,27 +664,27 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         plan2 = chartob.get_planets(True)
         chartob.swap_charts()
-        
+
         self.make_all_rulers(cr,radius,chartob,mid=True)
         self.draw_cusps(cr,radius,chartob)
-        
-        if filter == 'int': 
+
+        if filter == 'int':
             flt = filter
         elif filter == 'click':
-            flt = 'click' if not self.egoclick else 'pers' 
-            flt = flt if not self.allclick else None 
+            flt = 'click' if not self.egoclick else 'pers'
+            flt = flt if not self.allclick else None
         else:
             flt = 'click'
 
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,flt)
         self.d_inner_circles(cr,radius)
-    
+
     def click_nh(self,cr,width,height,chartob,filter='click'):
         cx,cy = width/2,height/2
         radius = min(cx,cy)*0.9
-        
+
         chartob.__class__ = NodalNodalChart
-        chartob.name = 'nodal' 
+        chartob.name = 'nodal'
         chartob.prepare_params1()
         self.d_radial_lines(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
@@ -693,7 +693,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets(True)
         chartob.__class__ = HouseHouseChart
-        chartob.name = 'basic' 
+        chartob.name = 'basic'
         chartob.set_iter_sizes()
         chartob.swap_charts()
         chartob.prepare_params2()
@@ -704,24 +704,24 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         plan2 = chartob.get_planets()
         chartob.swap_charts()
-        
+
         self.make_all_rulers(cr,radius,chartob,mid=True)
         self.draw_cusps(cr,radius,chartob)
 
         if filter == 'click':
-            flt = 'click' if not self.egoclick else 'pers' 
-            flt = flt if not self.allclick else None 
+            flt = 'click' if not self.egoclick else 'pers'
+            flt = flt if not self.allclick else None
         else:
             flt = 'click'
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,filter=flt)
         self.d_inner_circles(cr,radius)
-    
+
     def click_sn(self,cr,width,height,chartob,filter='click'):
         cx,cy = width/2,height/2
         radius = min(cx,cy)*0.9
-        
+
         chartob.__class__ = SoulHouseChart
-        chartob.name = 'soul' 
+        chartob.name = 'soul'
         chartob.prepare_params1()
         self.d_radial_lines(cr,radius,chartob)
         self.draw_signs(cr,radius,chartob)
@@ -730,7 +730,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot1')
         plan1 = chartob.get_planets()
         chartob.__class__ = NodalNodalChart
-        chartob.name = 'nodal' 
+        chartob.name = 'nodal'
         chartob.swap_charts()
         chartob.prepare_params2()
         self.d_radial_lines(cr,radius,chartob)
@@ -741,11 +741,11 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
         self.make_plines(cr,radius,chartob,'INN',plot='plot2')
         plan2 = chartob.get_planets(True)
         chartob.swap_charts()
-        
+
         self.make_all_rulers(cr,radius,chartob,mid=True)
         self.draw_cusps(cr,radius,chartob)
-        flt = 'click' if not self.egoclick else 'pers' 
-        flt = flt if not self.allclick else None 
+        flt = 'click' if not self.egoclick else 'pers'
+        flt = flt if not self.allclick else None
         self.aspmanager.manage_aspects(cr,radius*R_ASP,plan1,plan2,flt)
         self.d_inner_circles(cr,radius)
 
@@ -780,9 +780,9 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
             cr.scale(1/scl,1/scl)
             cr.translate(cx,0)
             cr.scale(scl,scl)
-            if curr.clickmode == 'master': 
+            if curr.clickmode == 'master':
                 chartobject = Basic_Chart(chart_one,chart_two)
-            else: 
+            else:
                 chartobject = Basic_Chart(chart_two,chart_one)
             self.rightdraw = True
             getattr(self,curr.opright)(cr,w/2,h,chartobject)
@@ -800,9 +800,9 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
             cr.scale(1/scl,1/scl)
             cr.translate(cx,0)
             cr.scale(scl,scl)
-            if curr.clickmode == 'master': 
+            if curr.clickmode == 'master':
                 chartobject = Basic_Chart(chart_one,chart_two)
-            else: 
+            else:
                 chartobject = Basic_Chart(chart_two,chart_one)
             cr.save()
             getattr(self,curr.opright)(cr,w/2,h/2,chartobject)
@@ -817,22 +817,22 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
     def dispatch_simple(self,cr,w,h,op,ch1,ch2):
         if op == 'solar_rev':
             ch1 = curr.now
-        if not op.startswith('dyn') and not op.startswith('bio') and op != 'comp_pe':  
+        if not op.startswith('dyn') and not op.startswith('bio') and op != 'comp_pe':
             cr.translate(w/2,h/2)
         chartobject = Basic_Chart(ch1, ch2)
         if op.startswith('dyn'):
-            cr.translate(w*0.1,h*0.1) 
+            cr.translate(w*0.1,h*0.1)
             getattr(self,op)(cr,int(w*0.8),int(h*0.8),chartobject)
-            cr.translate(-w*0.1,-h*0.1) 
+            cr.translate(-w*0.1,-h*0.1)
         else:
             getattr(self,op)(cr,w,h,chartobject)
 
     def get_gw(self):
         return self.goodwill
-    
+
     def get_uni(self):
         return self.uniaspect
-    
+
     def get_nw(self,filter=None):
         if hasattr(self.surface,"opaux"):
             op = self.surface.opaux[0]
@@ -844,12 +844,12 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
             if  not filter:
                 return []
             if boss.da.plselector:
-                return self.notwanted 
+                return self.notwanted
             else:
                 return self.trdiscard
         else:
             return []
-    
+
     @staticmethod
     def set_showAP(ap):
         global showAP
@@ -873,10 +873,10 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
     @classmethod
     def set_AP(dispatcher,ap,for_op,for_ch):
         global AP_DEG
-        chartob = dispatcher.get_chartob(for_op) 
+        chartob = dispatcher.get_chartob(for_op)
         chart = {'chart':chartob.chart,'click':chartob.click}[for_ch]
         cycles = chart.get_cycles(curr.date.dt)
-        ap = chartob.adjust_degpe(ap,chart) 
+        ap = chartob.adjust_degpe(ap,chart)
         AP_DEG = ap
         dt = chartob.when_angle(cycles,ap,chart)
         boss.da.panel.set_date(dt)
@@ -890,7 +890,7 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
             am = [1,-1][state & gtk.gdk.SHIFT_MASK] * 30
         ap = (AP_DEG + am) % 360
         AP_DEG = ap
-        chartob = dispatcher.get_chartob(for_op) 
+        chartob = dispatcher.get_chartob(for_op)
         chart = chartob.chart
         cycles = chart.get_cycles(curr.date.dt)
         dt = chartob.when_angle(cycles,ap,chart)
@@ -919,13 +919,13 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
     @staticmethod
     def get_AP_DEG():
         global AP_DEG
-        return AP_DEG 
-    
+        return AP_DEG
+
     @staticmethod
     def set_AP_DEG(ap=None):
         global AP_DEG
         AP_DEG = ap if ap else curr.now.houses[0]
-    
+
     @staticmethod
     def set_onlyEA(ea):
         global onlyEA
@@ -934,20 +934,20 @@ class DrawMixin(CoreMixin,ProgMixin,ProfileMixin,BioMixin,DiagramMixin,SheetMixi
     @staticmethod
     def get_onlyEA():
         return onlyEA
-    
+
     @staticmethod
     def set_showEA(ea):
         global showEA
         showEA = ProfileMixin.showEA = ea
 
 class PlanetManager(object):
-    def __init__(self,zodiac): 
+    def __init__(self,zodiac):
         self.glyphs = zodiac.plan[:]
         self.moon_f = self.glyphs[1]
         self.moon_b = self.glyphs.pop()
 
     def swap_fmoon(self):
         self.glyphs[1] = self.moon_f
-    
+
     def swap_bmoon(self):
-        self.glyphs[1] = self.moon_b 
+        self.glyphs[1] = self.moon_b

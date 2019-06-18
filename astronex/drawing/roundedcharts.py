@@ -6,7 +6,7 @@ PHI = 1 / ((1+sqrt(5))/2)
 RAD = pi / 180
 
 zodiac = None
-planetmanager = None 
+planetmanager = None
 
 def dif(l,h):
     d = h - l
@@ -14,29 +14,29 @@ def dif(l,h):
     return d
 
 class Basic_Chart(object):
-    R_INNER = 0.48 
-    R_RULEDINNER = 0.65 
+    R_INNER = 0.48
+    R_RULEDINNER = 0.65
     R_RULEDOUTER = 0.78
     R_RULEDMID   = 0.84
-    R_LINSET = 0.2 
-    R_PL = R_INNER + (R_RULEDINNER - R_INNER)/2 
+    R_LINSET = 0.2
+    R_PL = R_INNER + (R_RULEDINNER - R_INNER)/2
     pl_insets = { 'EXT': -0.03, 'INN': 0.09 }
     pl_line_width = { 'EXT': 0.85, 'INN': 0.55 }
-    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER } 
+    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER }
     dx = [-1.3 ,-1.5,1.0,   0.5,2.0, 1.5,  0.5, -0.5, -1.5,   -1.5,-2.0,-1.7]
     dy = [  2 ,  2,   2,   1.5,  1, -0.5,  -1, -1.0,-1.2,   -1.1, 1.0, 1.5]
     scl = 0.0038
     plan_scale = 0.0024
-    plan_factor = [0.93,1.07] 
+    plan_factor = [0.93,1.07]
     cusps_widths = (0.6,0.5,0.5)
     cuspfac = 1.14
-    cusp_font_size = 16.0 
+    cusp_font_size = 16.0
     cusp_line_width = 0.6
     click_col = None
-    pe_col = (0.8,0,0.4) 
+    pe_col = (0.8,0,0.4)
     zonecols = [(0.87,0.21,0.21),(0.97,0.94,0.51),(0.72,0.72,0.9),(0.34,0.77,0.41),(0.96,0.8,0.32),(0.83,0.5,0.51),(0.87,0.21,0.21)]
-    pez_cols = {'paleblue': (0.8,1,1),'palegreen':(0.6,1,0.6), 
-            'teal' :(0.3,0.6,0.8), 'darkgreen' :(0,0.95,0.4), 
+    pez_cols = {'paleblue': (0.8,1,1),'palegreen':(0.6,1,0.6),
+            'teal' :(0.3,0.6,0.8), 'darkgreen' :(0,0.95,0.4),
             'pink' :(1,0.85,1), 'darkblue':(0.6,0.6,1) }
 
     def __init__(self,chart,click,plmanager=None):
@@ -51,26 +51,26 @@ class Basic_Chart(object):
 
     def get_name(self):
         return 'basic'
-   
+
     def get_sign_radfac(self):
         return self.R_RULEDINNER
-    
+
     def get_cusp_radfac(self):
         return self.R_RULEDOUTER
-    
+
     def swap_charts(self):
         self.chart, self.click = self.click ,self.chart
 
     def get_offset(self):
         '''Get degree of ascendant as constant offset.'''
-        return self.chart.houses[0] % 30 
+        return self.chart.houses[0] % 30
 
     def get_ascendant(self):
         '''Get de index of the ascendant sign.'''
         return int(self.chart.houses[0] / 30)
-    
+
     def get_ruled(self):
-        return (self.R_RULEDINNER, self.R_RULEDOUTER, 
+        return (self.R_RULEDINNER, self.R_RULEDOUTER,
                 self.R_RULEDMID)
 
     def get_radial_param(self):
@@ -89,12 +89,12 @@ class Basic_Chart(object):
 
     def get_col(self):
         return self.click_col
-    
+
     def check_moons(self):
         sun = self.chart.planets[0]
-        moon = self.chart.planets[1] 
+        moon = self.chart.planets[1]
         diff = sun - moon
-        if (diff < 0 and abs(diff) < 180) or (diff >= 0 and abs(diff) >= 180): 
+        if (diff < 0 and abs(diff) < 180) or (diff >= 0 and abs(diff) >= 180):
             self.plmanager.swap_fmoon()
         else:
             self.plmanager.swap_bmoon()
@@ -168,23 +168,23 @@ class Basic_Chart(object):
                 po.degree = self.offsets_plan_degree(pl[0])
                 if num_plans < 2:
                     po.fac = 1.0
-                else: 
+                else:
                     po.fac = fac[0]
                     fac[0],fac[1] = fac[1],fac[0]
                 if num_plans < 3:
                     po.corr = 0.0
-                else: 
+                else:
                     faraway = pos - (num_plans // 2)
                     if faraway < 0:
                         diff = dif(pl[0],witness[pos+1][0])
                     elif faraway > 0:
-                        diff = dif(witness[pos-1][0],pl[0]) 
-                        if diff >= 353.5: 
+                        diff = dif(witness[pos-1][0],pl[0])
+                        if diff >= 353.5:
                             diff = -(diff - 353.5)
-                            po.fac = fac[0] 
-                    po.corr = self.correct_shift(-faraway * (6.5 - diff)/2.5) 
+                            po.fac = fac[0]
+                    po.corr = self.correct_shift(-faraway * (6.5 - diff)/2.5)
                 if shadow:
-                    plots[pl[1]] = po 
+                    plots[pl[1]] = po
                     continue
                 if name == "Plagram" and num_plans == 2:
                     po.fac = 1.0
@@ -194,7 +194,7 @@ class Basic_Chart(object):
                     else:
                         po.corr = (gen_corr - diff) / 1.8
                     gen_corr = -gen_corr
-                plots[pl[1]] = po 
+                plots[pl[1]] = po
         return plots
 
     def joinsort(self,cell):
@@ -204,7 +204,7 @@ class Basic_Chart(object):
             return witness
         ix = 0
         # reorder 2 358 to 358 2
-        for pos in range(lth): 
+        for pos in range(lth):
              diff = dif(witness[pos][0],witness[(pos+1)%lth][0])
              if diff > 6.5:
                  ix = pos + 1
@@ -221,24 +221,24 @@ class Basic_Chart(object):
             d = tuple[1]['degree'] - tuple[0]['degree']
             if d < 0: d += 360
             return d <= 6.5
-        
+
         plans = self.sortplan()
-        planque = deque(plans) 
+        planque = deque(plans)
         boolque = deque([diftuple(t) for t in izip(plans,plans[1:]+[plans[0]])])
         if True in boolque:
             while boolque[0] != True or boolque[-1] != False:
                 boolque.rotate(-1)
-                planque.rotate(-1) 
+                planque.rotate(-1)
 
         jail = []; cell = set()
         for low,btuple in izip(planque,boolque):
-            cell.add((low['degree'],low['ix'])) 
-            if btuple is False: 
+            cell.add((low['degree'],low['ix']))
+            if btuple is False:
                 jail.append(cell)
                 cell = set()
         return jail
-    
-    def sortplan(self): 
+
+    def sortplan(self):
         pl = []
         for i,p in enumerate(self.get_planets()):
             pl.append( { 'degree': p, 'ix': i} )
@@ -255,12 +255,13 @@ class Basic_Chart(object):
     def get_sign_offsets(self):
         '''Iterator for rotation angles.'''
         sign = self.get_ascendant() * 30 + self.get_offset() - 90
+        offsets = [(sign + 30*i + 15) for i in range(12)]
         return ((sign + 30*i + 15) for i in range(12))
 
     def get_sclx(self,scly):
         return scly
-    
-    def adjust_degpe(self,deg,chart): 
+
+    def adjust_degpe(self,deg,chart):
         return ((180+chart.houses[0]-deg)%360)
 
     def when_angle(self,cycles,angle,chart):
@@ -268,38 +269,38 @@ class Basic_Chart(object):
 
     def get_age_prog(self):
         plan = self.sortplan()
-        return self.chart.calc_agep(plan) 
+        return self.chart.calc_agep(plan)
 
     def get_house_age_prog(self,h):
         plan = self.sortplan()
-        return self.chart.calc_house_agep(plan,h) 
+        return self.chart.calc_house_agep(plan,h)
 
 
 class ClickChart(Basic_Chart):
-    R_INNER = Basic_Chart.R_INNER    
+    R_INNER = Basic_Chart.R_INNER
     R_RULEDINNER = 0.73
     R_RULEDOUTER = 0.95
-    R_LINSET1 = 0.13 
-    R_LINSET2 = 0.15 
+    R_LINSET1 = 0.13
+    R_LINSET2 = 0.15
     R_RULEDCLICK_MID = 0.84
     R_RULEDCLICK_INN = 0.73     #shared
     R_PL = R_INNER + 3*(R_RULEDINNER - R_INNER)/4
-    R_PL_CLICK = R_INNER + (R_RULEDINNER - R_INNER)/4    
-    
+    R_PL_CLICK = R_INNER + (R_RULEDINNER - R_INNER)/4
+
     dx = [ 0.5 , 1.5, 1.5, 0.5, 0,  -1, -1.5,-2.7,-2.7, -1.5, -1.3,-0.5]
-    dy = [  2 ,  1,   0,  -0.5, -1, -1, -1,  0,   0.5, 1.5,  2,   2] 
-    
+    dy = [  2 ,  1,   0,  -0.5, -1, -1, -1,  0,   0.5, 1.5,  2,   2]
+
     scl = 0.0024
     plan_factor = [0.95,1.05]
     plan_scale = 0.0021
     cusps_widths = (0.4,0.34,0.34)
-   
+
     cuspfac = 1.52
-    cusp_font_size = 20.0 
-    cusp_line_width = 0.4   
+    cusp_font_size = 20.0
+    cusp_line_width = 0.4
     click_col = 'click1'
     click_col_other = 'click2'
-    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': Basic_Chart.R_INNER } 
+    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': Basic_Chart.R_INNER }
 
     def prepare_params1(self):
         self.get_radial_param = self.get_radial_param1
@@ -312,15 +313,15 @@ class ClickChart(Basic_Chart):
         self.get_col = self.get_col2
         self.get_rpl = self.get_rpl2
         self.get_sign_radfac = self.get_sign_radfac2
-    
+
     def get_radial_param1(self):
         return (self.R_RULEDCLICK_MID,self.R_LINSET1,self.R_RULEDOUTER)
 
     def get_radial_param2(self):
         return (self.R_RULEDCLICK_INN,self.R_LINSET2,self.R_RULEDOUTER)
-    
+
     def get_cusp_radfac(self):
-        return self.R_INNER 
+        return self.R_INNER
 
     def get_rpl1(self):
         return self.R_PL
@@ -333,85 +334,85 @@ class ClickChart(Basic_Chart):
 
     def get_sign_radfac2(self):
         return self.R_RULEDCLICK_INN
-    
+
     def get_col1(self):
         return self.click_col
-    
+
     def get_col2(self):
-        return self.click_col_other 
+        return self.click_col_other
 
     def get_cusps_offsets(self):
-        return ((180 - 30*i) for i in range(12)) 
+        return ((180 - 30*i) for i in range(12))
 
-class UnequalHousesChart(object): 
+class UnequalHousesChart(object):
     def get_sizes(self):
         return self.chart.sizes()
 
     def get_cusps_offsets(self):
         houses = self.chart.houses
         offset = 180 + houses[0]
-        return ((offset - h) for h in iter(houses)) 
+        return ((offset - h) for h in iter(houses))
 
     def get_houses(self):
         return iter(self.chart.houses)
 
     def get_houses_noiter(self):
         return (self.chart.houses)
-    
+
     def get_gold_offset(self):
-        return 180 + self.chart.houses[0] 
+        return 180 + self.chart.houses[0]
 
     def get_golden_points(self):
         '''Iterator over low/inv proportions.'''
         for house,size in izip(self.get_houses(),self.get_sizes()):
-            yield house,size*PHI, size*(1-PHI) 
+            yield house,size*PHI, size*(1-PHI)
 
 class EqualHousesChart(object):
     def get_sizes(self):
         return [30.0]*12
-    
+
     def get_cusps_offsets(self):
-        return ((180 - 30*i) for i in range(12)) 
-    
+        return ((180 - 30*i) for i in range(12))
+
     def get_houses(self):
-        return (30*i for i in range(12)) 
-    
+        return (30*i for i in range(12))
+
     def get_houses_noiter(self):
-        return [30*i for i in range(12)] 
-    
-    
+        return [30*i for i in range(12)]
+
+
     def get_gold_offset(self):
         return 180
 
     def get_golden_points(self):
         '''Iterator over low/inv proportions.'''
         for house,size in izip(self.get_houses(),self.get_sizes()):
-            yield house,size*PHI, size*(1-PHI) 
+            yield house,size*PHI, size*(1-PHI)
 
-class RadixChart(Basic_Chart,UnequalHousesChart): 
+class RadixChart(Basic_Chart,UnequalHousesChart):
     def get_cross_offset(self):
-        return 180 + self.chart.houses[0] 
+        return 180 + self.chart.houses[0]
 
     def sup_cross(self,angle):
         return angle
 
-class CounterChart(RadixChart): 
+class CounterChart(RadixChart):
     def offsets_plan_degree(self,degree):
         '''Get offset for planet drawing.'''
         return (180 + self.click.houses[0]) - degree
 
 class UrNodal(RadixChart):
-    #R_INNER = 0.45 
-    #R_RULEDINNER = 0.6 
+    #R_INNER = 0.45
+    #R_RULEDINNER = 0.6
     #R_RULEDOUTER = 0.78
     #R_RULEDMID   = 0.86
 
     def get_planets(self,click=False):
         return self.chart.urnodplan()
-    
+
     def get_sign_radfac(self):
         return 0.61
-    
+
     def get_nod_sign_offsets(self):
         node = self.chart.planets[10] % 30
         asc = self.chart.houses[0]
@@ -428,32 +429,32 @@ class UrNodal(RadixChart):
                 this_frac = thish_part*factors[h]
                 prev_frac = prevh_part*factors[(h+11)%12]
                 middle = (this_frac + prev_frac)/2 - prev_frac
-                deg =  houses[h] + middle 
+                deg =  houses[h] + middle
             else:
                 prev_frac = prevh_part*factors[h]
                 this_frac = thish_part*factors[(h+1)%12]
                 middle = (this_frac + prev_frac)/2 - this_frac
-                deg =  houses[(h+1)%12] - middle 
+                deg =  houses[(h+1)%12] - middle
             off = (270  - (deg - asc)) % 360.0
             offs.append(off)
             midh = self.chart.which_house(deg)
             hh.append(midh)
         return offs,hh
-    
+
     def get_nod_zod_iter(self):
-        return iter(self.zod)    
+        return iter(self.zod)
 
 class SoulChart(Basic_Chart,UnequalHousesChart):
     R_INNER = Basic_Chart.R_INNER
     R_RULEDINNER = Basic_Chart.R_RULEDINNER
-    R_PL_CLICK = R_INNER + (R_RULEDINNER - R_INNER)/3.5 
+    R_PL_CLICK = R_INNER + (R_RULEDINNER - R_INNER)/3.5
     click_col_other = 'clicksoul'
     plan_click_scale = 0.0021
     plan_click_factor = [0.96,1.04]
-    
+
     def get_name(self):
         return 'soul'
-    
+
     def get_planets(self):
         return self.chart.soulplan()
 
@@ -461,34 +462,34 @@ class SoulChart(Basic_Chart,UnequalHousesChart):
         self.plan_scale = SoulChart.plan_click_scale
         self.plan_factor = SoulChart.plan_click_factor
 
-    
+
 class LocalChart(Basic_Chart,UnequalHousesChart):
-    def adjust_degpe(self,deg,chart): 
+    def adjust_degpe(self,deg,chart):
         return ((180+chart.calc_localhouses()[0]-deg)%360)
-    
+
     def when_angle(self,cycles,angle,chart):
         return chart.when_angle(cycles,angle,local=True)
-    
+
     def get_age_prog(self):
         plan = self.sortplan()
-        return self.chart.calc_agep(plan,local=True) 
+        return self.chart.calc_agep(plan,local=True)
 
     def get_house_age_prog(self,h):
         plan = self.sortplan()
-        return self.chart.calc_house_agep(plan,h,local=True) 
+        return self.chart.calc_house_agep(plan,h,local=True)
 
 
-#class DharmaChart(Basic_Chart,UnequalHousesChart): 
-class DharmaChart(SoulChart): 
+#class DharmaChart(Basic_Chart,UnequalHousesChart):
+class DharmaChart(SoulChart):
     def get_cross_offset(self):
-        return 180 + self.chart.houses[0] 
+        return 180 + self.chart.houses[0]
 
     def sup_cross(self,angle):
         return angle
-    
+
     def get_planets(self):
         return self.chart.house_plan_long()
-    
+
     #def set_clickvals(self):
     #    self.plan_scale = SoulChart.plan_click_scale
     #    self.plan_factor = SoulChart.plan_click_factor
@@ -496,22 +497,22 @@ class DharmaChart(SoulChart):
 class HouseChart(Basic_Chart,EqualHousesChart):
     def get_offset(self):
         return 0.0
-    
+
     def get_planets(self):
         return self.chart.house_plan_long()
-    
+
     def get_sign_cusps(self):
         return self.chart.house_sign_long()
-    
+
     def offsets_plan_degree(self,degree):
         return 180.0 - degree
 
     def get_sign_offsets(self):
         for long,size in izip(reversed(self.get_sign_cusps()),reversed(self.chart.sign_sizes())):
             off = 180 - long
-            yield (off + (90 - size/2)) 
-    
-    def get_sclx(self,scly): 
+            yield (off + (90 - size/2))
+
+    def get_sclx(self,scly):
         return scly * self.iter_sizes.next()/30
 
     def set_iter_sizes(self):
@@ -519,15 +520,15 @@ class HouseChart(Basic_Chart,EqualHousesChart):
 
 class NodalChart(Basic_Chart,EqualHousesChart):
     pe_col = (0.4,0,0.8)
-    
+
     def get_name(self):
         return 'nodal'
-    
+
     def get_offset(self):
         return 30 - self.chart.planets[10] % 30
-    
+
     def get_ascendant(self):
-        return int(self.chart.planets[10]/30) 
+        return int(self.chart.planets[10]/30)
 
     def get_planets(self,click=False):
         plans = self.chart.planets[:]
@@ -539,26 +540,26 @@ class NodalChart(Basic_Chart,EqualHousesChart):
         return plans
 
     def get_cross_offset(self):
-        return 180 + self.chart.planets[10] 
+        return 180 + self.chart.planets[10]
 
     def sup_cross(self,angle):
         return 360 - angle
-    
+
     def correct_shift(self,corr):
         return -corr
 
     def offsets_plan_degree(self,degree):
         '''Get offset for planet drawing.'''
         return (180 - self.chart.planets[10]) + degree
-    
+
     def get_zod_iter(self):
-        return iter(self.zod)    
+        return iter(self.zod)
 
     def get_sign_offsets(self):
         sign = (11 - self.get_ascendant()) * 30 + self.get_offset() - 90
         return ((sign + 30*i + 15) for i in range(12))
 
-    def adjust_degpe(self,deg,chart): 
+    def adjust_degpe(self,deg,chart):
         return ((180+chart.planets[10]+deg)%360)
 
     def when_angle(self,cycles,angle,chart):
@@ -566,11 +567,11 @@ class NodalChart(Basic_Chart,EqualHousesChart):
 
     def get_age_prog(self):
         plan = self.sortplan()
-        return self.chart.calc_nodal_agep(plan) 
+        return self.chart.calc_nodal_agep(plan)
 
     def get_house_age_prog(self,h):
         plan = self.sortplan()
-        return self.chart.calc_house_nodal_agep(plan,h) 
+        return self.chart.calc_house_nodal_agep(plan,h)
 
 
 class HouseHouseChart(ClickChart,HouseChart):
@@ -582,13 +583,13 @@ class NodalNodalChart(ClickChart,NodalChart):
 class SoulHouseChart(ClickChart):
     def get_offset(self):
        return 0
-    
+
     def get_ascendant(self):
         return 0
 
     def get_sign_cusps(self):
         return ((30*h) for h in range(12))
-    
+
     def offsets_plan_degree(self,degree):
         '''Get offset for planet drawing.'''
         return 180 - degree
@@ -597,13 +598,13 @@ class SubjectClickChart(RadixChart):
     R_INNER = ClickChart.R_INNER *0.9
     R_RULEDINNER = 0.7
     R_RULEDOUTER = 0.82
-    R_LINSET = 0.16 
+    R_LINSET = 0.16
     R_PL = R_INNER + 5.5*(R_RULEDINNER - R_INNER)/8
     R_PL_CLICK = R_INNER + (R_RULEDINNER - R_INNER)/3.5
     scl = 0.0028
-    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER } 
+    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER }
     plan_scale = 0.002
-    plan_factor = [0.95,1.05] 
+    plan_factor = [0.95,1.05]
 
     def set_inv_params(self):
         self.R_LINSET = 0.14
@@ -621,7 +622,7 @@ class SubjectClickChart(RadixChart):
         self.get_sign_cusps = self.temp_funcs[1]
         self.get_sign_offsets = self.temp_funcs[2]
         self.get_sclx = self.temp_funcs[3]
-    
+
     def subject_planets(self):
         return self.chart.invert_house_plan(self.click.house_plan_long())
 
@@ -633,11 +634,11 @@ class SubjectClickChart(RadixChart):
     def subject_sign_offsets(self):
         for long,size in izip(reversed(self.get_sign_cusps()),reversed(self.subject_sizes())):
             off = 180 - long
-            yield (off + (90 - size/2)) 
-    
-    def subject_sclx(self,scly): 
+            yield (off + (90 - size/2))
+
+    def subject_sclx(self,scly):
         return scly * self.iter_sizes.next()/30
-    
+
     def set_iter_sizes(self):
         self.iter_sizes = (size for size in reversed(self.subject_sizes()))
 
@@ -649,11 +650,11 @@ class OneCircle(ClickChart):
     R_INNER = ClickChart.R_INNER
     R_RULEDINNER = 0.7
     R_RULEDOUTER = 0.82
-    R_LINSET = 0.16 
+    R_LINSET = 0.16
     R_PL = R_INNER + 6*(R_RULEDINNER - R_INNER)/8
     R_PL_CLICK = R_INNER + (R_RULEDINNER - R_INNER)/3.5
     scl = 0.0032
-    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER } 
+    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER }
 
     def offsets_plan_degree(self,degree):
         return  self.get_fixed_offset() - degree
@@ -667,7 +668,7 @@ class OneCircle(ClickChart):
         return self.fixed_offset
 
 class RadixRadixChart(OneCircle,RadixChart):
-    R_INNER = 0.585 
+    R_INNER = 0.585
     R_RULEDINNER = 0.7
     R_RULEDOUTER = 0.82
     cuspfac = 1.47
@@ -677,7 +678,7 @@ class RadixRadixChart(OneCircle,RadixChart):
 
 class RadixDharmaChart(OneCircle,RadixChart):
     #R_INNER = ClickChart.R_INNER
-    R_INNER = 0.585 
+    R_INNER = 0.585
     R_RULEDINNER = 0.7
     R_RULEDOUTER = 0.82
     cuspfac = 1.47
@@ -691,7 +692,7 @@ class SoulSoulChart(OneCircle,SoulChart):
 class TransitChart(OneCircle,RadixChart):
     click_col_other = 'transcol'
     click_col = None
-    
+
     def get_rpl1(self):
         return self.R_PL_CLICK
 
@@ -701,39 +702,39 @@ class TransitChart(OneCircle,RadixChart):
     def get_cusps_offsets(self):
         houses = self.chart.houses
         offset = 180 + houses[0]
-        return ((offset - h) for h in iter(houses)) 
+        return ((offset - h) for h in iter(houses))
 
-class Plagram(Basic_Chart,UnequalHousesChart): 
+class Plagram(Basic_Chart,UnequalHousesChart):
     R_INNER = 0.455
-    R_RULEDINNER = 0.455 
+    R_RULEDINNER = 0.455
     R_RULEDOUTER = 0.564
-    R_LINSET = 0.12 
+    R_LINSET = 0.12
     rulecol = (0.4,0.4,0.4)
     pl_insets = { 'EXT': -0.03, 'INN': 0.055 }
-    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER } 
+    pl_radfac = { 'EXT': R_RULEDINNER , 'INN': R_INNER }
     sign_fac = 1.005
-    shadow_plan_factor = [0.99,1.01] 
+    shadow_plan_factor = [0.99,1.01]
 
     def get_name(self):
         return 'plagram'
-    
+
     def get_cross_offset(self):
-        return 180 + self.chart.houses[0] 
+        return 180 + self.chart.houses[0]
 
     def sup_cross(self,angle):
         return angle
-    
+
     def get_ruled(self):
         return (self.R_RULEDINNER, self.R_RULEDOUTER)
-    
+
     def get_radial_param(self):
         return (self.R_RULEDINNER, self.R_LINSET,self.R_RULEDOUTER)
-    
+
     def get_cusps_offsets(self):
         houses = self.chart.houses
         offset = 180 + houses[0]
         return [(offset - h) for h in iter(houses)]
-    
+
     def get_lowp_offsets(self):
         lp = self.chart.get_low_points()
         offset = 180 + self.chart.houses[0]
@@ -755,17 +756,17 @@ class Plagram(Basic_Chart,UnequalHousesChart):
                 this_frac = thish_part*factors[h]
                 prev_frac = prevh_part*factors[(h+11)%12]
                 middle = (this_frac + prev_frac)/2 - prev_frac
-                deg =  houses[h] + middle 
+                deg =  houses[h] + middle
             else:
                 prev_frac = prevh_part*factors[h]
                 this_frac = thish_part*factors[(h+1)%12]
                 middle = (this_frac + prev_frac)/2 - this_frac
-                deg =  houses[(h+1)%12] - middle 
+                deg =  houses[(h+1)%12] - middle
             off = (270  - (deg - asc)) % 360.0
             offs.append(off)
             midh = self.chart.which_house(deg)
             hh.append(midh)
         return offs,hh
-    
+
     def get_nod_zod_iter(self):
-        return iter(self.zod)    
+        return iter(self.zod)

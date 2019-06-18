@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import gtk,gobject
-import cairo,pango
+import cairo, pango
 import math
 from .. drawing.dispatcher import DrawMixin
 from .. gui.plselector_dlg import PlanSelector
@@ -62,13 +62,13 @@ class DrawMaster(gtk.Layout):
             elif buf == _('Ver zonas de casa'):
                 self.hidden_op['hz'] = menu_item
             elif buf == _('Ver todos los aspectos'):
-                self.hidden_op['acl'] = menu_item 
+                self.hidden_op['acl'] = menu_item
             elif buf == _('Ego-clics'):
-                self.hidden_op['ego'] = menu_item 
-        
-        self.set_events(gtk.gdk.BUTTON_PRESS_MASK | 
-                gtk.gdk.BUTTON_RELEASE_MASK | 
-                gtk.gdk.POINTER_MOTION_MASK | 
+                self.hidden_op['ego'] = menu_item
+
+        self.set_events(gtk.gdk.BUTTON_PRESS_MASK |
+                gtk.gdk.BUTTON_RELEASE_MASK |
+                gtk.gdk.POINTER_MOTION_MASK |
                 gtk.gdk.POINTER_MOTION_HINT_MASK)
         self.connect("expose_event",self.dispatch)
         self.connect("button_press_event", self.on_da_clicked)
@@ -80,7 +80,7 @@ class DrawMaster(gtk.Layout):
 
         self.create_special_area()
         self.create_hselector()
-        self.drawer = DrawMixin(boss.opts,self) 
+        self.drawer = DrawMixin(boss.opts,self)
         self.plselector = None
         self.cycleselector = None
         self.planpopup = None
@@ -93,11 +93,11 @@ class DrawMaster(gtk.Layout):
         self.va = None
         self.m_x = 0
         self.m_y = 0
-    
+
     def create_special_area(self):
         frame = gtk.Frame()
         diada = DrawDiagram(self.boss)
-        diada.set_size_request(275,275) 
+        diada.set_size_request(275,275)
         frame.add(diada)
         self.put(frame,-280,0)
         self.diada = frame
@@ -105,7 +105,7 @@ class DrawMaster(gtk.Layout):
     def create_hselector(self):
         frame = gtk.Frame()
         hsel = HouseSelector(self.boss)
-        hsel.set_size_request(120,120) 
+        hsel.set_size_request(120,120)
         frame.add(hsel)
         self.put(frame,-160,612)
         self.hsel = frame
@@ -123,7 +123,7 @@ class DrawMaster(gtk.Layout):
                 info['button'] = 100; #now
                 if self.cycleselector:
                     cycles = curr.curr_chart.get_cycles()
-                    self.cycleselector.adj.set_value(cycles+1) 
+                    self.cycleselector.adj.set_value(cycles+1)
             elif curr.curr_op == 'sec_prog':
                 self.sec_alltimes = not(self.sec_alltimes)
             return True
@@ -144,7 +144,7 @@ class DrawMaster(gtk.Layout):
             elif info['button'] == 100:
                 info['button'] = -1
             if showAP is None:
-                return True 
+                return True
             w = da.allocation.width/2; h = da.allocation.height/2
             if curr.opmode == 'simple' and curr.curr_op in peops:
                 pass
@@ -157,7 +157,7 @@ class DrawMaster(gtk.Layout):
                 #    self.redraw_auxwins()
                 #    return
             elif curr.opmode == 'double' or curr.curr_op == 'rad_and_transit':
-                deg = math.degrees(math.atan2(y-h, (x%w)-(w/2) )) 
+                deg = math.degrees(math.atan2(y-h, (x%w)-(w/2) ))
                 for_op = [curr.opleft,curr.opright][x > w]
                 if curr.clickmode == 'click':
                     for_ch = ['chart','click'][x > w]
@@ -178,15 +178,15 @@ class DrawMaster(gtk.Layout):
             if curr.clickmode == 'click' and curr.opmode != 'simple':
                 return
             if curr.opmode == 'double':
-                boss.mpanel.chooser.swap_ops() 
+                boss.mpanel.chooser.swap_ops()
                 boss.da.redraw_auxwins(True)
             elif curr.opmode == 'triple':
-                x, y = event.x,event.y 
+                x, y = event.x,event.y
                 w, h = da.allocation.width, da.allocation.height
-                side = ['up',None][y > (h/2)] 
+                side = ['up',None][y > (h/2)]
                 if not side:
-                    side = ['left','right'][x > (w/2)] 
-                boss.mpanel.chooser.swap_ops(side) 
+                    side = ['left','right'][x > (w/2)]
+                boss.mpanel.chooser.swap_ops(side)
             elif curr.opmode == 'simple':
                 if self.zoom_in:
                     self.panning = not self.panning
@@ -203,7 +203,7 @@ class DrawMaster(gtk.Layout):
                             self.textspopup = TextPopup(ix)
                     #else:
                     #    sel.select_path(0)
-                    #    sel.emit('changed') 
+                    #    sel.emit('changed')
                 else:
                     self.drawer.set_op_AP(curr.curr_op,event.state )
                     dt = curr.date.dt
@@ -214,16 +214,16 @@ class DrawMaster(gtk.Layout):
         elif event.type == gtk.gdk.BUTTON_RELEASE:
             if self.planpopup:
                 self.planpopup.destroy()
-                self.planpopup = None 
+                self.planpopup = None
             if curr.curr_op in bios or curr.opmode != 'simple':
                 return False
             if info['button'] < 0 or info['button'] == 100:
                 return True
             if info['button'] == event.button:
-                info['button'] = -1; 
+                info['button'] = -1;
                 if self.panning:
                     gtk.gdk.pointer_ungrab(event.time)
-                else: 
+                else:
                     self.drawer.ruline = None
                     self.rulinepending = None
                     if showAP:
@@ -241,7 +241,7 @@ class DrawMaster(gtk.Layout):
         elif gtk.gdk.MOTION_NOTIFY:
             if curr.curr_op in bios or curr.opmode != 'simple':
                 return False
-            x, y, state = event.window.get_pointer() 
+            x, y, state = event.window.get_pointer()
             if DrawMaster.overlay:
                 self.m_x = x
                 self.m_y = y
@@ -261,13 +261,13 @@ class DrawMaster(gtk.Layout):
                 #dy = float(y) / h * hrange
                 if x + self.ha.value < 0:
                     self.ha.value = 0
-                elif x + self.ha.value > wrange: 
+                elif x + self.ha.value > wrange:
                     self.ha.value = wrange
                 else:
                     self.ha.value += x
                 if y + self.va.value < 0:
                     self.va.value = 0
-                elif y + self.va.value > hrange: 
+                elif y + self.va.value > hrange:
                     self.va.value = hrange
                 else:
                     self.va.value += y
@@ -277,7 +277,7 @@ class DrawMaster(gtk.Layout):
             #self.queue_draw()
 
     def toggle_overlay(self):
-        DrawMaster.overlay = not DrawMaster.overlay 
+        DrawMaster.overlay = not DrawMaster.overlay
         if DrawMaster.overlay:
             pixmap = gtk.gdk.Pixmap(None, 1, 1, 1)
             color = gtk.gdk.Color()
@@ -288,10 +288,10 @@ class DrawMaster(gtk.Layout):
         self.queue_draw()
 
     def on_scroll(self,da,event):
-        x, y = event.x,event.y 
+        x, y = event.x,event.y
         w, h = da.allocation.width, da.allocation.height
         side = None
-        
+
         if event.direction == gtk.gdk.SCROLL_UP:
             delta = -1
         else:
@@ -299,31 +299,31 @@ class DrawMaster(gtk.Layout):
 
         if self.textspopup:
             self.textspopup.destroy()
-            self.textspopup = None 
+            self.textspopup = None
             nb = boss.mpanel.chooser.notebook
             page = nb.get_current_page()
             m,i = nb.get_nth_page(page).get_selection().get_selected()
-            ix = m.get_path(i)[0] + delta 
+            ix = m.get_path(i)[0] + delta
             if page == 3 and ix in [2,3,4]:
                 self.textspopup = TextPopup(ix)
-        
+
         if  curr.opmode == 'simple':
-            boss.mpanel.chooser.delta_select(delta) 
+            boss.mpanel.chooser.delta_select(delta)
         elif  curr.opmode == 'triple':
-            side = ['up',None][y > (h/2)] 
+            side = ['up',None][y > (h/2)]
             if not side:
-                side = ['left','right'][x > (w/2)] 
+                side = ['left','right'][x > (w/2)]
             curr.set_opdelta(delta,side)
-            boss.mpanel.chooser.delta_triple_select(delta,side) 
+            boss.mpanel.chooser.delta_triple_select(delta,side)
         elif  curr.opmode == 'double':
-            side = ['left','right'][x > (w/2)] 
+            side = ['left','right'][x > (w/2)]
             curr.set_opdelta(delta,side)
-            boss.mpanel.chooser.delta_double_select(delta,side) 
-        
+            boss.mpanel.chooser.delta_double_select(delta,side)
+
         self.redraw()
         return True
 
-    def on_menuitem_activate(self,menuitem): 
+    def on_menuitem_activate(self,menuitem):
         if menuitem.child.get_text() == _('Acercar'):
             scrw, scrh = self.get_size_request()
             #self.set_size_request(720*2,720*2)
@@ -347,7 +347,7 @@ class DrawMaster(gtk.Layout):
         elif menuitem.child.get_text() == _('Ocultar zonas PE'):
             self.drawer.pe_zones = False
             self.redraw_auxwins(True)
-            menuitem.child.set_text(_('Ver zonas PE')) 
+            menuitem.child.set_text(_('Ver zonas PE'))
         elif menuitem.child.get_text() == _('Ver zonas de casa'):
             self.drawer.hzones = True
             menuitem.child.set_text(_('Ocultar zonas de casa'))
@@ -356,7 +356,7 @@ class DrawMaster(gtk.Layout):
             menuitem.child.set_text(_('Ver zonas de casa'))
         elif menuitem.child.get_text() == _('Solo EA'):
             DrawMixin.set_onlyEA(True)
-            menuitem.child.set_text(_('Mostrar todo')) 
+            menuitem.child.set_text(_('Mostrar todo'))
         elif menuitem.child.get_text() == _('Mostrar todo'):
             DrawMixin.set_onlyEA(False)
             menuitem.child.set_text(_('Solo EA'))
@@ -397,24 +397,24 @@ class DrawMaster(gtk.Layout):
         if dothing == 'add':
             self.hidden_op[men].show()
         elif dothing == 'remove':
-            self.hidden_op[men].hide() 
-    
+            self.hidden_op[men].hide()
+
     def popup_menu(self):
         event = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
         self.menu.popup(None, None, None, 1, event.time)
 
-    def redraw(self): 
+    def redraw(self):
         w = int(self.ha.upper - self.ha.lower)
         h = int(self.va.upper - self.va.lower)
         x = int(self.ha.lower)
         y = int(self.va.lower)
-        self.bin_window.invalidate_rect(gtk.gdk.Rectangle(x,y,w,h),False) 
+        self.bin_window.invalidate_rect(gtk.gdk.Rectangle(x,y,w,h),False)
         #if self.panning:
         #    w = int(self.ha.upper - self.ha.lower)
         #    h = int(self.va.upper - self.va.lower)
         #    x = int(self.ha.lower)
         #    y = int(self.va.lower)
-        #    self.bin_window.invalidate_rect(gtk.gdk.Rectangle(x,y,w,h),False) 
+        #    self.bin_window.invalidate_rect(gtk.gdk.Rectangle(x,y,w,h),False)
         #else:
         #    w = self.allocation.width
         #    h = self.allocation.height
@@ -454,25 +454,25 @@ class DrawMaster(gtk.Layout):
         #self.panel.nowbut.emit('clicked')
         self.redraw()
         self.redraw_auxwins()
-        
+
     def hide_pe(self,menuitem=None):
         DrawMixin.set_showAP(None)
         self.redraw()
         self.redraw_auxwins()
-    
+
     def show_diada(self,menuitem=None):
         where = self.allocation.width - self.diada.allocation.width
-        self.move(self.diada,where,0) 
-        self.diadavisible = True 
+        self.move(self.diada,where,0)
+        self.diadavisible = True
         self.redraw()
-    
+
     def hide_diada(self,menuitem=None):
-        self.move(self.diada,-280,0) 
+        self.move(self.diada,-280,0)
         self.diadavisible = False
         self.redraw()
-    
+
     def make_auxwin(self):
-        self.auxwins.append(AuxWindow(boss.mainwin)) 
+        self.auxwins.append(AuxWindow(boss.mainwin))
         sda = self.auxwins[-1].sda
         sda.drawer.hoff = sda.allocation.width * 0.125
         sda.drawer.gridw = sda.drawer.hoff * 6
@@ -480,7 +480,7 @@ class DrawMaster(gtk.Layout):
     def make_pebridge(self):
         if not self.bridge:
             self.bridge = BridgePEWindow(boss.mainwin)
-    
+
     def hide_pebridge(self):
         self.bridge.exit()
         self.bridge = None
@@ -491,7 +491,7 @@ class DrawMaster(gtk.Layout):
             self.plselector = PlanSelector(self.boss.mainwin)
             self.plselector.move(0,0)
 
-    def make_cycleswin(self): 
+    def make_cycleswin(self):
         if not self.cycleselector:
             self.cycleselector = CycleSelector(self.boss.mainwin)
             wx,wy = self.boss.mainwin.pos_x,self.boss.mainwin.pos_y
@@ -503,9 +503,9 @@ class DrawMaster(gtk.Layout):
         if self.diadavisible:
             where = self.allocation.width - self.diada.allocation.width
             if self.where_diada != where:
-                self.move(self.diada,where,0) 
+                self.move(self.diada,where,0)
                 self.where_diada = where
-        
+
         op = curr.curr_op
         if self.fullscreen:
             DrawMixin.extended_canvas = False
@@ -513,8 +513,8 @@ class DrawMaster(gtk.Layout):
         elif op in extended and curr.opmode == 'simple' :
             if not DrawMixin.extended_canvas:
                 DrawMixin.extended_canvas = True
-                pad = 160; 
-                if op in ['compo_one','compo_two']: 
+                pad = 160;
+                if op in ['compo_one','compo_two']:
                     if boss.mainwin.scr_width <= 1024:
                         pad = self.allocation.width * 0.4
                     else:
@@ -524,21 +524,21 @@ class DrawMaster(gtk.Layout):
             if DrawMixin.extended_canvas:
                 DrawMixin.extended_canvas = False
                 self.set_size_request(720,720)
-    
+
         if op in bios and not self.hselvisible and curr.opmode == 'simple':
             where = self.allocation.height - self.hsel.allocation.height
-            self.move(self.hsel,0,where) 
+            self.move(self.hsel,0,where)
             self.hselvisible = True
         elif self.hselvisible and curr.opmode != 'simple' or op not in bios:
-            self.move(self.hsel,-160,650) 
+            self.move(self.hsel,-160,650)
             self.hselvisible = False
 
         if self.hselvisible:
             where = self.allocation.height - self.hsel.allocation.height
             if self.where_hsel != where:
-                self.move(self.hsel,0,where) 
+                self.move(self.hsel,0,where)
                 self.where_hsel = where
-        
+
         cr = self.bin_window.cairo_create()
         w = self.allocation.width
         h = self.allocation.height
@@ -547,16 +547,16 @@ class DrawMaster(gtk.Layout):
         cr.set_source_rgb(1.0,1.0,1.0)
         cr.rectangle(0,0,w,h)
         cr.fill()
-        cr.set_line_join(cairo.LINE_JOIN_ROUND) 
+        cr.set_line_join(cairo.LINE_JOIN_ROUND)
         cr.set_line_width(float(self.opts.base))
-        
+
         if self.diadavisible:
             cr.translate(0,h*0.15)
             w *= 0.85; h *= 0.85
         self.drawer.dispatch_pres(cr,w,h)
         if self.diadavisible:
             w /= 0.85; h /= 0.85
-        
+
         cr.identity_matrix()
         if self.pepending[0]:
             self.draw_pelabel(cr,w,h)
@@ -565,12 +565,12 @@ class DrawMaster(gtk.Layout):
             self.d_now_date(cr,w,h)
         if self.rulinepending:
             self.d_ruldegree(cr,w,h)
-        self.draw_label(cr,w,h) 
+        self.draw_label(cr,w,h)
         if self.check_local_label():
             self.d_loclbl(cr,w,h)
-                
+
         if DrawMaster.overlay:
-            col = gtk.gdk.color_parse('#'+self.opts.overlay) 
+            col = gtk.gdk.color_parse('#'+self.opts.overlay)
             ovcol = [col.red/MAGICK_COL,col.green/MAGICK_COL,col.blue/MAGICK_COL,0.5]
             cr.set_source_rgba(*ovcol)
             radial = cairo.RadialGradient(self.m_x,self.m_y,45,self.m_x,self.m_y,50)
@@ -579,14 +579,14 @@ class DrawMaster(gtk.Layout):
             cr.mask(radial)
 
     def check_local_label(self):
-        if curr.opmode == 'simple' and curr.curr_op == 'draw_local': 
+        if curr.opmode == 'simple' and curr.curr_op == 'draw_local':
             return True
         labelyes = curr.opleft == 'draw_local' or curr.opright == 'draw_local'
         if curr.opmode == 'double' and labelyes:
-            return True 
+            return True
         if curr.opmode == 'triple' and labelyes or curr.opup == 'draw_local':
-            return True 
-        return False 
+            return True
+        return False
 
     def d_ruldegree(self,cr,w,h):
         if self.diadavisible:
@@ -599,7 +599,7 @@ class DrawMaster(gtk.Layout):
         col = boss.opts.zodiac.zod[sign].col
         signs = u"%s\u00b0 %s\u00b4" % (deg,mint)
         layout = cr.create_layout()
-        cr.set_source_rgb(0,0,0.6) 
+        cr.set_source_rgb(0,0,0.6)
         font = pango.FontDescription(self.opts.font)
         font.set_size(9*pango.SCALE)
         layout.set_font_description(font)
@@ -608,7 +608,7 @@ class DrawMaster(gtk.Layout):
         xpos = logical[2]/pango.SCALE
         cr.move_to(w-xpos-20,20)
         cr.show_layout(layout)
-        
+
         font = pango.FontDescription("Astro-Nex")
         font.set_size(9*pango.SCALE)
         layout.set_font_description(font)
@@ -626,9 +626,9 @@ class DrawMaster(gtk.Layout):
         date = curr.date.ld
         date = date.__str__().split(' ')[0].split('-')
         date.reverse()
-        date = "/".join(date) 
+        date = "/".join(date)
         layout = cr.create_layout()
-        
+
         signs = ['','']
         collet = [0,0]
         for i in [1,2]:
@@ -645,7 +645,7 @@ class DrawMaster(gtk.Layout):
         if signs[1]:
             signs[0],signs[1] = signs[1],signs[0]
 
-        cr.set_source_rgb(0,0,0.6) 
+        cr.set_source_rgb(0,0,0.6)
         font = pango.FontDescription(self.opts.font)
         font.set_size(9*pango.SCALE)
         layout.set_font_description(font)
@@ -658,7 +658,7 @@ class DrawMaster(gtk.Layout):
         font = pango.FontDescription("Astro-Nex")
         font.set_size(9*pango.SCALE)
         layout.set_font_description(font)
-        if collet[1]: 
+        if collet[1]:
             off = xpos+22
             for col,let,f in collet:
                 cr.set_source_rgb(*col)
@@ -674,7 +674,7 @@ class DrawMaster(gtk.Layout):
             xpos = logical[2]/pango.SCALE
             cr.move_to(w-xpos-5,5)
             cr.show_layout(layout)
-        
+
     def d_now_date(self,cr,w,h):
         if self.diadavisible:
             return
@@ -689,9 +689,9 @@ class DrawMaster(gtk.Layout):
         layout.set_text(date)
         ink,logical = layout.get_extents()
         xpos = logical[2]/pango.SCALE
-        cr.move_to(w-xpos-18,5) 
+        cr.move_to(w-xpos-18,5)
         cr.show_layout(layout)
-    
+
         font = pango.FontDescription("Astro-Nex")
         font.set_size(9*pango.SCALE)
         layout.set_font_description(font)
@@ -707,7 +707,7 @@ class DrawMaster(gtk.Layout):
 
     def d_loclbl(self,cr,w,h):
         layout = cr.create_layout()
-        cr.set_source_rgb(0,0.5,0.3) 
+        cr.set_source_rgb(0,0.5,0.3)
         font = pango.FontDescription(self.opts.font)
         font.set_size(8*pango.SCALE)
         layout.set_font_description(font)
@@ -720,7 +720,7 @@ class DrawMaster(gtk.Layout):
         cr.move_to(w/2-xpos/2,h-15)
         cr.show_layout(layout)
 
-    def draw_label(self,cr,w,h): 
+    def draw_label(self,cr,w,h):
         if curr.curr_op in sheetops:
             return
         layout = cr.create_layout()
@@ -731,28 +731,28 @@ class DrawMaster(gtk.Layout):
 
         cols = [(0,0,0.4),(0.8,0,0.1)]
         ix = [0,1][curr.clickmode == 'click']
-        charts = (curr.curr_chart,curr.curr_click) 
+        charts = (curr.curr_chart,curr.curr_click)
         for i in range(ix+1):
-            name = "%s %s" % (charts[i].first,charts[i].last) 
+            name = "%s %s" % (charts[i].first,charts[i].last)
             layout.set_text(name)
             ink,logical = layout.get_extents()
             xpos = logical[2]/pango.SCALE
             if ix and not i:
                 pos = 0 + 5
             else:
-                pos = w - xpos - 5 
-            cr.set_source_rgb(*cols[i]) 
+                pos = w - xpos - 5
+            cr.set_source_rgb(*cols[i])
             cr.move_to(pos,h)
             cr.show_layout(layout)
         if self.diadavisible and curr.clickmode == 'click':
             where = self.allocation.width - self.diada.allocation.width
-            name = "%s %s" % (charts[0].first,charts[0].last) 
+            name = "%s %s" % (charts[0].first,charts[0].last)
             layout.set_text(name)
             ink,logical = layout.get_extents()
             xpos = logical[2]/pango.SCALE
             cr.move_to(where-20,5+xpos)
             cr.rotate(-90*math.pi/180)
-            cr.set_source_rgb(*cols[0]) 
+            cr.set_source_rgb(*cols[0])
             cr.show_layout(layout)
 
 
@@ -763,7 +763,7 @@ class ChangeDatePanel(gtk.VBox):
     changes = ['minutes','hours','days']
     def __init__(self,parent):
         gtk.VBox.__init__(self)
-        
+
         frame = gtk.Frame()
         self.time = curr.date.ld.time()
         self.internal_signal = True
@@ -774,12 +774,12 @@ class ChangeDatePanel(gtk.VBox):
         self.mth_hid = self.calendar.connect('month-changed',self.on_calendar_day_selected,parent)
         frame.add(self.calendar)
         self.pack_start(frame, False, False)
-        
+
         self.set_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.connect("button_press_event", lambda s,but: True)
-        
+
         butbox = gtk.HBox()
-        
+
         adj = gtk.Adjustment(1,1,10,1,5)
         self.spin = gtk.SpinButton(adj)
         self.spin.set_wrap(True)
@@ -787,7 +787,7 @@ class ChangeDatePanel(gtk.VBox):
         self.spin.set_size_request(40,-1)
         butbox.pack_start(self.spin,False,False)
 
-        button = gtk.Button() 
+        button = gtk.Button()
         button.set_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.BUTTON_RELEASE_MASK)
         arrow = gtk.Arrow(gtk.ARROW_LEFT, gtk.SHADOW_NONE)
         button.add(arrow)
@@ -795,15 +795,15 @@ class ChangeDatePanel(gtk.VBox):
         button.connect("button_press_event",self.on_panel_clicked,parent)
         button.connect("button_release_event",self.on_panel_clicked,parent)
         butbox.pack_start(button,False,False)
-        
+
         self.combo = gtk.combo_box_new_text()
         self.combo.append_text(_("minutos"))
         self.combo.append_text(_("horas"))
         self.combo.append_text(_("dias"))
         self.combo.set_active(2)
         self.combo.set_size_request(70,-1)
-        butbox.pack_start(self.combo,False,False) 
-        
+        butbox.pack_start(self.combo,False,False)
+
         button = gtk.Button()
         button.set_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.BUTTON_RELEASE_MASK)
         arrow = gtk.Arrow(gtk.ARROW_RIGHT, gtk.SHADOW_NONE)
@@ -822,8 +822,8 @@ class ChangeDatePanel(gtk.VBox):
         butbox.pack_start(but,False,False)
         but.connect('clicked',self.on_now_clicked)
         self.nowbut = but
-        self.pack_start(butbox,False,False) 
-    
+        self.pack_start(butbox,False,False)
+
     def on_calendar_day_selected(self,cal,parent):
         y,m,d = cal.get_date()
         time = self.time
@@ -831,17 +831,17 @@ class ChangeDatePanel(gtk.VBox):
             date = datetime.combine(datetime(y,m+1,d),time)
         except ValueError:
             try:
-                date = datetime.combine(datetime(y,m+1,d-1),time) 
+                date = datetime.combine(datetime(y,m+1,d-1),time)
             except ValueError:
-                date = datetime.combine(datetime(y,m+1,d-3),time) 
-        curr.date.setdt(date) 
+                date = datetime.combine(datetime(y,m+1,d-3),time)
+        curr.date.setdt(date)
         curr.refresh_nowchart()
         boss.mpanel.act_now(curr.now)
         if parent.cycleselector:
             cycles = curr.curr_chart.get_cycles(date)
-            parent.cycleselector.adj.set_value(cycles+1) 
+            parent.cycleselector.adj.set_value(cycles+1)
         if self.internal_signal:
-            boss.da.hsel.child.set_house_from_date(date) 
+            boss.da.hsel.child.set_house_from_date(date)
         if self.needsredrawing:
             parent.redraw()
             self.parent.redraw_auxwins()
@@ -850,10 +850,10 @@ class ChangeDatePanel(gtk.VBox):
         self.internal_signal = True
 
     def on_panel_clicked(self,but,event,parent):
-        delta = self.spin.get_value_as_int()        
+        delta = self.spin.get_value_as_int()
         if but.get_data('dir') == '<':
             delta = -delta
-        change = self.changes[self.combo.get_active()] 
+        change = self.changes[self.combo.get_active()]
         if event.type == gtk.gdk.BUTTON_PRESS:
             self.timeout_sid = gobject.timeout_add(80,self.start_spining,delta,change)
         elif event.type == gtk.gdk.BUTTON_RELEASE:
@@ -877,7 +877,7 @@ class ChangeDatePanel(gtk.VBox):
             self.time = date.time()
             self.internal_signal = True
         else:
-            self.time = curr.date.ld.time() 
+            self.time = curr.date.ld.time()
             self.internal_signal = False
         self.set_cal(date)
 
@@ -888,7 +888,7 @@ class ChangeDatePanel(gtk.VBox):
         self.calendar.select_day(date.day)
         self.calendar.clear_marks()
         self.calendar.mark_day(date.day)
-    
+
     def set_date_only(self,date):
         self.time = date.time()
         self.internal_signal = True

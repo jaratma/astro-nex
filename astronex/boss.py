@@ -22,7 +22,7 @@ suffixes = { 'draw_nat':'rx','draw_nod':'nd','draw_house':'hs','draw_local':'lc'
         'subject_click':'cs', 'dyn_cuad2':'d2', 'click_bridge':'br',
         'compo_one':'c1','compo_two':'c2','ascent_star':'as','polar_star':'ps',
         'wundersensi_star':'ws','crown_comp':'cr','paarwabe_plot':'pw',
-        'click_counterpanel': 'ch', 'comp_pe': 'pe', 'draw_ur_nodal': 'un'  } 
+        'click_counterpanel': 'ch', 'comp_pe': 'pe', 'draw_ur_nodal': 'un'  }
 
 class Manager(object):
     "manage component interactions"
@@ -46,8 +46,8 @@ class Manager(object):
         SimpleAspectManager.trorbs = state.transits
         self.suffixes = suffixes
 
-        f = open('astronex/resources/ac.pk') 
-        self.acpaths = pickle.load(f) 
+        f = open('astronex/resources/ac.pk')
+        self.acpaths = pickle.load(f)
         f.close()
 
     def set_mainwin(self,mainwin):
@@ -68,22 +68,22 @@ class Manager(object):
     # winmain services
     def get_homer_dir(self):
         return app.home_dir
-    
+
     def set_fullscreen_state(self,flag):
-        self.da.__class__.fullscreen = flag    
-    
+        self.da.__class__.fullscreen = flag
+
     #################################
     def parse_colors(self):
         return config.parse_colors()
 
     def parse_aux_colors(self):
         return config.parse_aux_colors()
-    
+
     def get_colors(self):
         return config.cfgcols
 
     def reset_colors(self):
-        config.reset_colors(self.opts) 
+        config.reset_colors(self.opts)
 
     def redraw(self,both=True):
         if both:
@@ -94,15 +94,15 @@ class Manager(object):
 
     def get_state(self):
         return self.state
-    
+
     def get_database(self):
         return self.datab
 
     def get_version(self):
         return self.version
-    
+
     #####
-    def get_showEA(self): 
+    def get_showEA(self):
         return self.da.drawer.get_showEA()
 
     ##### pdf
@@ -142,7 +142,7 @@ class Manager(object):
     def swap_to_twelve(self):
         self.da.drawer.aspmanager.swap_to_twelve()
         self.da.redraw()
-    
+
     ##### shell util
     def prepare_shell(self,kind='radix'):
         ch = self.giveme_single_chartob(kind)
@@ -168,20 +168,20 @@ class Manager(object):
         st = self.get_state()
         chobj = clicks[kind](st.curr_chart,st.curr_click)
         am = self.get_simple_amanager()
-        
-        if kind in ['nn','nh']: 
+
+        if kind in ['nn','nh']:
             p1 = chobj.get_planets(True)
         else:
             p1 = chobj.get_planets()
         chobj.swap_charts()
-        if kind == 'nn': 
+        if kind == 'nn':
             p2 = chobj.get_planets(True)
-        elif kind == 'hn': 
+        elif kind == 'hn':
             chobj.__class__ = NodalNodalChart
-            p2 = chobj.get_planets(True) 
-        elif kind == 'nh': 
+            p2 = chobj.get_planets(True)
+        elif kind == 'nh':
             chobj.__class__ = HouseHouseChart
-            p2 = chobj.get_planets() 
+            p2 = chobj.get_planets()
         else:
             p2 = chobj.get_planets()
 
@@ -191,7 +191,7 @@ class Manager(object):
         conj = set(a for a in aspects if a.a == 0)
         aspects.difference_update(conj)
         noopos = set(a for a in aspects if a.a != 6)
-        aspects.difference_update(noopos) 
+        aspects.difference_update(noopos)
         print 'conj'
         for a in conj:
             print a.p1, a.p2
@@ -206,17 +206,17 @@ class Manager(object):
         ix = self.state.fav_ix
         active = Slot.storage
         self.state.load_from_fav(ix,active)
-        MainPanel.actualize_pool(active,self.state.charts[active]) 
+        MainPanel.actualize_pool(active,self.state.charts[active])
         ix = (ix + 1) % len(self.state.fav)
-        self.state.fav_ix = ix 
-    
+        self.state.fav_ix = ix
+
 
     def solar_rev(self):
         solar_rev(self)
-    
-    def sec_prog(self): 
-        sec_prog(self)  
-        
+
+    def sec_prog(self):
+        sec_prog(self)
+
     def load_couple(self):
         if not self.state.couples:
             return
@@ -225,18 +225,18 @@ class Manager(object):
         table = self.state.couples[ix]['fem'][1]
         id = self.state.couples[ix]['fem'][2]
         self.state.datab.load_chart(table,id,chart)
-        self.mpanel.actualize_pool('master',chart) 
+        self.mpanel.actualize_pool('master',chart)
         chart = self.state.charts['click']
         table = self.state.couples[ix]['mas'][1]
         id = self.state.couples[ix]['mas'][2]
         self.state.datab.load_chart(table,id,chart)
-        self.mpanel.actualize_pool('click',chart) 
+        self.mpanel.actualize_pool('click',chart)
         ix = (ix + 1) % len(self.state.couples)
-        self.state.coup_ix = ix 
+        self.state.coup_ix = ix
 
     def search_couple(self,female,male):
         for c in self.state.couples:
-            if ((c['fem'][0] == female and c['mas'][0] == male) or 
+            if ((c['fem'][0] == female and c['mas'][0] == male) or
                     (c['fem'][0] == male and c['mas'][0] == female)):
                 return c['dates']
         return None

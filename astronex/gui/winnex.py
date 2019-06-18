@@ -14,7 +14,7 @@ from plagram_dlg import PlagramWindow
 from entry_dlg import EntryDlg
 from localsel import LocSelector
 from aux_dlg import AuxWindow
-from shell_dlg import ShellDialog
+#from shell_dlg import ShellDialog
 from quickhelp import HelpWindow
 from inieditor import IniEditor
 
@@ -32,8 +32,8 @@ class WinNex(gtk.Window):
         self.plagram = None
         self.set_title("Astro-Nex")
         self.connect('destroy', self.cb_exit)
-        self.connect('key-press-event', self.on_key_press_event) 
-        self.connect('configure-event', self.on_configure_event) 
+        self.connect('key-press-event', self.on_key_press_event)
+        self.connect('configure-event', self.on_configure_event)
 
         accel_group = gtk.AccelGroup()
         #accel_group.connect_group(ord('u'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.printpage_cb)
@@ -44,9 +44,9 @@ class WinNex(gtk.Window):
         accel_group.connect_group(ord('l'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.customloc_cb)
         accel_group.connect_group(ord('b'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.launch_chartbrowser)
         accel_group.connect_group(ord('w'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.launch_aux)
-        accel_group.connect_group(ord('e'),gtk.gdk.MOD1_MASK,gtk.ACCEL_LOCKED,self.launch_plagram) 
+        accel_group.connect_group(ord('e'),gtk.gdk.MOD1_MASK,gtk.ACCEL_LOCKED,self.launch_plagram)
         accel_group.connect_group(ord('r'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.launch_pebridge)
-        accel_group.connect_group(ord('k'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.launch_shell)
+        #accel_group.connect_group(ord('k'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.launch_shell)
         accel_group.connect_group(ord('i'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.launch_editor)
         accel_group.connect_group(ord('o'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED,self.toggle_overlay)
         accel_group.connect_group(gtk.keysyms.F2,0,gtk.ACCEL_LOCKED,self.fake_modify_chart)
@@ -81,13 +81,13 @@ class WinNex(gtk.Window):
 
         hbox = gtk.HBox(False,3)
         self.add(hbox)
-        
+
         ### toolbar
         self.tb = gtk.Toolbar()
         self.tb.set_size_request(300,-1)
         self.tb.set_tooltips(True)
         self.tb.set_style(gtk.TOOLBAR_ICONS)
-        
+
         ti = gtk.ToolButton()
         ti.connect('clicked',self.cb_exit)
         img = gtk.Image()
@@ -97,8 +97,8 @@ class WinNex(gtk.Window):
         ti.add_accelerator('clicked',accel_group,ord('q'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED)
         ti.set_tooltip_text(_("Salir"))
         self.tb.insert(ti,0)
-        
-        #if 'DEBUG_NEX' in os.environ and sys.platform != 'win32': 
+
+        #if 'DEBUG_NEX' in os.environ and sys.platform != 'win32':
         #    tkon = gtk.ToolButton()
         #    img = gtk.Image()
         #    imgfile = os.path.join(appath,"resources/konsole-24.png")
@@ -106,7 +106,7 @@ class WinNex(gtk.Window):
         #    tkon.set_icon_widget(img)
         #    tkon.connect('clicked',self.on_kon_clicked)
         #    tkon.set_tooltip_text(_("Terminal"))
-        #    self.tb.insert(tkon,-1) 
+        #    self.tb.insert(tkon,-1)
 
         tfull = gtk.ToolButton()
         img = gtk.Image()
@@ -116,7 +116,7 @@ class WinNex(gtk.Window):
         tfull.connect('clicked',self.on_fullscreen_clicked)
         tfull.toggled = True
         tfull.set_tooltip_text(_("Pantalla completa"))
-        self.tb.insert(tfull,-1) 
+        self.tb.insert(tfull,-1)
         self.add_mnemonic(gtk.keysyms.F11,tfull)
 
         timg = gtk.ToolButton()
@@ -127,7 +127,7 @@ class WinNex(gtk.Window):
         timg.connect('clicked',self.on_png_clicked)
         timg.add_accelerator('clicked',accel_group,ord('g'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED)
         timg.set_tooltip_text(_("Exportar a imagen"))
-        self.tb.insert(timg,-1) 
+        self.tb.insert(timg,-1)
 
         tpdf = gtk.ToolButton()
         img = gtk.Image()
@@ -137,7 +137,7 @@ class WinNex(gtk.Window):
         tpdf.connect('clicked',self.on_pdf_clicked)
         tpdf.add_accelerator('clicked',accel_group,ord('p'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED)
         tpdf.set_tooltip_text(_("Exportar a PDF/Imprimir"))
-        self.tb.insert(tpdf,-1) 
+        self.tb.insert(tpdf,-1)
 
         tentry = gtk.ToolButton()
         img = gtk.Image()
@@ -148,8 +148,8 @@ class WinNex(gtk.Window):
         tentry.add_accelerator('clicked',accel_group,ord('e'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED)
         tentry.set_tooltip_text(_("TEntradas"))
         self.tentry = tentry
-        self.tb.insert(tentry,-1) 
-        
+        self.tb.insert(tentry,-1)
+
         thelp = gtk.ToolButton()
         img = gtk.Image()
         imgfile = os.path.join(appath,"resources/gtk-properties-32.png")
@@ -158,8 +158,8 @@ class WinNex(gtk.Window):
         thelp.connect('clicked',self.on_props_clicked)
         thelp.add_accelerator('clicked',accel_group,ord('s'),gtk.gdk.CONTROL_MASK,gtk.ACCEL_LOCKED)
         thelp.set_tooltip_text(_("TConfiguracion"))
-        self.tb.insert(thelp,-1) 
-        
+        self.tb.insert(thelp,-1)
+
         tabout = gtk.ToolButton()
         img = gtk.Image()
         imgfile = os.path.join(appath,"resources/stock_about.png")
@@ -167,7 +167,7 @@ class WinNex(gtk.Window):
         tabout.set_icon_widget(img)
         tabout.connect('clicked',self.on_about_clicked,appath)
         tabout.set_tooltip_text(_("Acerca de Astro-Nex"))
-        self.tb.insert(tabout,-1) 
+        self.tb.insert(tabout,-1)
 
         self.mpanel = MainPanel(self.boss)
 
@@ -211,42 +211,42 @@ class WinNex(gtk.Window):
         self.pos_x = event.x
         self.pos_y = event.y
 
-    def on_key_press_event(self,window,event): 
-        if event.keyval == gtk.keysyms.F11 or (event.keyval == gtk.keysyms.Escape and self.da.__class__.fullscreen): 
+    def on_key_press_event(self,window,event):
+        if event.keyval == gtk.keysyms.F11 or (event.keyval == gtk.keysyms.Escape and self.da.__class__.fullscreen):
             self.tb.get_nth_item(1).emit('clicked')
         elif event.keyval == gtk.keysyms.F1:
             self.show_help()
         return False
-    
+
     def activate_entry(self):
         self.tentry.emit('clicked')
-    
+
     def cb_exit(self,e):
         gtk.main_quit()
 
     def on_pdf_clicked(self,but):
         DrawPdf.clicked(self.boss)
-    
+
     def on_png_clicked(self,but):
         DrawPng.clicked(self.boss)
-    
+
     def on_props_clicked(self,but):
         ConfigDlg(self)
-    
+
     def on_entry_clicked(self,but):
         if not self.entry:
-            self.entry = EntryDlg(self) 
+            self.entry = EntryDlg(self)
 
     def entry_calc(self,a,b,c,d):
         if not self.entry:
-            self.entry = EntryDlg(self) 
+            self.entry = EntryDlg(self)
             self.entry.modify_entries(self.boss.state.calc)
-    
+
     def locselector(self,a,b,c,d):
         self.locselflag = True
         if not self.locsel:
-            self.locsel = LocSelector(self) 
-    
+            self.locsel = LocSelector(self)
+
     def on_fullscreen_clicked(self,full):
         if full.toggled:
             full.toggled = False
@@ -258,7 +258,7 @@ class WinNex(gtk.Window):
             full.toggled = True
             self.tb.show()
             self.mpanel.show()
-            self.boss.set_fullscreen_state(False) 
+            self.boss.set_fullscreen_state(False)
             self.unfullscreen()
 
     def on_kon_clicked(self,but):
@@ -286,45 +286,45 @@ class WinNex(gtk.Window):
         if response < 0:
             dialog.destroy()
             dialog.emit_stop_by_name('response')
-    
+
     def on_about_close(self,widget,event=None):
         widget.destroy()
         return True
 
     #def printpage_cb(self,acgroup,actable,keyval,mod):
     #    printsurface.printpage(self.boss)
-    
+
     def customloc_cb(self,acgroup,actable,keyval,mod):
         CustomLocDlg(self.boss)
-    
+
     def launch_chartbrowser(self,acgroup,actable,keyval,mod):
         if not self.browser:
             self.browser = ChartBrowserWindow(self)
-    
+
     def launch_chartbrowser_from_mpanel(self):
         if not self.browser:
             self.browser = ChartBrowserWindow(self)
-    
+
     def launch_plagram(self,acgroup,actable,keyval,mod):
         if not self.plagram:
             self.plagram = PlagramWindow(self)
 
     def launch_aux(self,acgroup,actable,keyval,mod):
         self.da.auxwins.append(AuxWindow(self))
-    
+
     def launch_aux_from_browser(self,chart):
         self.da.auxwins.append(AuxWindow(self,chart=chart))
-    
+
     def launch_pebridge(self,acgroup,actable,keyval,mod):
         item = self.mpanel.toolbar.get_nth_item(6)
         item.set_active(not item.get_active())
-    
-    def launch_shell(self,acgroup,actable,keyval,mod):
-        ShellDialog(self.boss)
-    
+
+    #def launch_shell(self,acgroup,actable,keyval,mod):
+    #    ShellDialog(self.boss)
+
     def launch_editor(self,acgroup,actable,keyval,mod):
         IniEditor(self)
-    
+
     def launch_calendar(self,acgroup,actable,keyval,mod):
         item = self.mpanel.toolbar.get_nth_item(0)
         item.set_active(not item.get_active())
@@ -347,19 +347,19 @@ class WinNex(gtk.Window):
 
     def swap_slot(self,acgroup,actable,keyval,mod):
         self.mpanel.slot_act_inactive()
-    
+
     def swap_storage(self,acgroup,actable,keyval,mod):
-        self.mpanel.swap_storage() 
+        self.mpanel.swap_storage()
 
     def load_one_fav(self,acgroup,actable,keyval,mod):
         self.boss.load_one_fav()
-    
+
     def load_couple(self,acgroup,actable,keyval,mod):
         self.boss.load_couple()
-    
+
     def show_help(self):
         HelpWindow(self)
-        
+
     def swap_to_ten(self,acgroup,actable,keyval,mod):
         self.boss.da.drawer.aspmanager.swap_to_ten()
         self.boss.da.redraw()
@@ -367,7 +367,7 @@ class WinNex(gtk.Window):
     def swap_to_twelve(self,acgroup,actable,keyval,mod):
         self.boss.da.drawer.aspmanager.swap_to_twelve()
         self.boss.da.redraw()
-    
+
     def page_select(self,acgroup,actable,keyval,mod):
         s = gtk.keysyms
         kcodes = {s.KP_0:'transit', s.KP_1:'charts', s.KP_2:'clicks', s.KP_3:'bio', s.KP_4:'double1',
@@ -425,7 +425,7 @@ class WinNex(gtk.Window):
         event = gtk.gdk.Event(gtk.gdk.SCROLL)
         event.direction = gtk.gdk.SCROLL_UP
         self.da.on_scroll(self.da,event)
-    
+
     def fake_scroll_down(self,acgroup,actable,keyval,mod):
         event = gtk.gdk.Event(gtk.gdk.SCROLL)
         event.direction = gtk.gdk.SCROLL_DOWN
